@@ -1,0 +1,6 @@
+requests
+beautifulsoup4
+mysql.connector
+apscheduler
+loguru
+re
