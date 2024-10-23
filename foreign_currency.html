@@ -21,7 +21,7 @@
     </div>
     <div class="col-sm-3" ></div>
         <div class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle" style="position: fixed ; left: 120px ; width: 100px"
+            <button type="button" class="btn btn-primary dropdown-toggle" style="position: fixed ; left: 150px ; width: 100px"
                 data-bs-toggle="dropdown">幣別</button>
             <ul class="dropdown-menu">                            
                 <li><a class="dropdown-item" href="#usd">美元</a></li>
@@ -95,10 +95,11 @@
                             // const banks = ["esun", "cathaybk"];
                             // const buys = [];
                             
-                            // const apiBank = `http://127.0.0.1:8888/foreign_currency?bank={$bank}&date=${selectedDate}`;
+                            // const apiBank = `http://127.0.0.1:8888/foreign_currency?bank=${bank}&date=${selectedDate}`;
                             const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
                             const apiCathay = `http://127.0.0.1:8888/cathaybk_foreign_currency?date=${selectedDate}`;
-                            
+                            // const apiEsun = `http://host.docker.internal/esun_foreign_currency?date=${selectedDate}`;
+                            // const apiCathay = `http://host.docker.internal/cathaybk_foreign_currency?date=${selectedDate}`;
 
                             async function getBankDataUSD() {
                                 
@@ -122,28 +123,33 @@
                                 let buy_cash_cath = parseFloat(cathJson.data[0].buy_cash);
                                 let sell_cash_esun = parseFloat(esunJson.data[0].sell_cash);
                                 let sell_cash_cath = parseFloat(cathJson.data[0].sell_cash);
-                                
-                                if (buy_esun > buy_cath){        
+
+                                let buy_list = [buy_esun, buy_cath, ]
+                                let sell_list = [sell_esun, sell_cath, ]
+                                let buy_cash_list = [buy_cash_esun, buy_cash_cath, ]
+                                let sell_cash_list = [sell_cash_esun, sell_cash_cath, ]
+                            
+                                if (Math.max(...buy_list) == buy_esun){        
                                     document.getElementById("buy_esun_usd").style.background = "#FFC080";
-                                }else if (buy_esun < buy_cath){        
+                                }else if (Math.max(...buy_list) == buy_cath){        
                                     document.getElementById("buy_cath_usd").style.background = "#FFC080";
                                 }
-
-                                if (sell_esun < sell_cath){        
+                               
+                                if (Math.min(...sell_list) == sell_esun){        
                                     document.getElementById("sell_esun_usd").style.background = "#FFC080";
-                                }else if (sell_esun > sell_cath){        
+                                }else if (Math.min(...sell_list) == sell_cath){        
                                     document.getElementById("sell_cath_usd").style.background = "#FFC080";
                                 }
 
-                                if (buy_cash_esun > buy_cash_cath){        
+                                if (Math.max(...buy_cash_list) == buy_cash_esun){        
                                     document.getElementById("buy_cash_esun_usd").style.background = "#FFC080";
-                                }else if (buy_cash_esun < buy_cash_cath){        
+                                }else if (Math.max(...buy_cash_list) == buy_cash_cath){        
                                     document.getElementById("buy_cash_cath_usd").style.background = "#FFC080";
                                 }
 
-                                if (sell_cash_esun < sell_cash_cath){        
+                                if (Math.min(...sell_cash_list) == sell_cash_esun){        
                                     document.getElementById("sell_cash_esun_usd").style.background = "#FFC080";
-                                }else if (sell_cash_esun > sell_cash_cath){        
+                                }else if (Math.min(...sell_cash_list) == sell_cash_cath){        
                                     document.getElementById("sell_cash_cath_usd").style.background = "#FFC080";
                                 }
 

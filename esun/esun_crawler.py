@@ -70,18 +70,18 @@ def crawler_esun():
     connection.commit()
     logger.info("數據成功插入 MySQL")
           
-scheduler = BackgroundScheduler(timezone='Asia/Taipei')
-scheduler.add_job(
-    crawler_esun,
-    trigger = 'cron',
-    hour = 12,
-    # minute = 51,
-    day_of_week = '*',      
-    )
+# scheduler = BackgroundScheduler(timezone='Asia/Taipei')
+# scheduler.add_job(
+#     crawler_esun,
+#     trigger = 'cron',
+#     hour = 15,
+#     minute = 5,
+#     day_of_week = '*',      
+#     )
 
-logger.info('sent_crawler_task')
-scheduler.start()
+# logger.info('sent_crawler_task')
+# scheduler.start()
 
-while True:
-    time.sleep(6000)
+# while True:
+#     time.sleep(6000)
 

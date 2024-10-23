@@ -6,7 +6,7 @@ import pandas as pd
 
 
 def get_mysql_conn() -> engine.base.Connection:
-    address = "mysql+mysqlconnector://root:test@127.0.0.1:3306/crawler"
+    address = "mysql+mysqlconnector://root:test@127.0.0.1:3306/crawler" #host.docker.internal
     engine = create_engine(address)
     connect = engine.connect()
     return connect
@@ -15,7 +15,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 或者設置特定的來源，例如 ["http://localhost:8080"]
+    allow_origins=["*"],       # 或者設置特定的來源，例如 ["http://localhost:8080"]
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

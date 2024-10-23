@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   api:
-    image: myapi-app
+    image: api_mysql
     ports:
         - 8888:8888
     #hostname: 
