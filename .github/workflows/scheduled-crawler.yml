@@ -2,7 +2,7 @@ name: Scheduled Crawler
 
 on:
   schedule:
-    - cron: "0 4 * * *" # 每天UTC 4點 (台北12點)
+    - cron: "*/5 * * * *" # 每天UTC 4點 (台北12點)
 
 jobs:
   crawler:
