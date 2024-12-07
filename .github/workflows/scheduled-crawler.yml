@@ -27,12 +27,12 @@ jobs:
           docker-compose -f mysql.yml up -d
 
       # Step 3: 等待 MySQL 啟動
-      - name: Wait for MySQL to be ready
-        run: |
-          while ! docker exec mysql mysqladmin ping -h"127.0.0.1" --silent; do
-            echo "Waiting for database connection..."
-            sleep 3
-          done
+      # - name: Wait for MySQL to be ready
+      #   run: |
+      #     while ! docker exec mysql mysqladmin ping -h"127.0.0.1" --silent; do
+      #       echo "Waiting for database connection..."
+      #       sleep 3
+      #     done
 
       # Step 4: 執行爬蟲
       - name: api_scheduler.py
