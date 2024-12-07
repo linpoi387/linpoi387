@@ -14,6 +14,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y docker-compose
+          docker network create my_network
           
       # Step 1: 檢出程式碼
       - name: Checkout code
