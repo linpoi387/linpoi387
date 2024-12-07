@@ -22,6 +22,7 @@ jobs:
       # Step 2: 設定 Docker Compose
       - name: Set up Docker Compose
         run: |
+          docker volume create --name=mysql
           docker network create my_network
           docker-compose -f mysql.yml up -d
 
