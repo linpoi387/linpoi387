@@ -39,6 +39,13 @@ jobs:
         run: |
           pip install apscheduler
           pip install loguru
+          pip install requests
+          pip install beautifulsoup4
+          pip install mysql.connector
+          pip install fastapi
+          pip install uvicorn
+          pip install sqlalchemy
+          pip install pandas
           python api_scheduler.py
 
       # Step 5: 停止 Docker Compose
