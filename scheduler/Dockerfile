@@ -1,0 +1,15 @@
+# 1. 基於官方的 Python 映像
+FROM python:3.11.7-slim
+
+# 2. 設置工作目錄
+WORKDIR /app
+
+# 3. 複製當前目錄中的內容到容器的 /app 目錄
+COPY . /app
+
+# 4. 安裝依賴
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+# 5. 設置啟動命令來運行 FastAPI 應用
+CMD ["python", "api_scheduler.py"]

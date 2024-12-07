@@ -2,4 +2,3 @@ requests
 beautifulsoup4
 mysql.connector
 loguru
-apscheduler

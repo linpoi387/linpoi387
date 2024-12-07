@@ -9,9 +9,9 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import time
-from apscheduler.schedulers.background import BackgroundScheduler
 from loguru import logger
 import mysql.connector
+# from apscheduler.schedulers.background import BackgroundScheduler
 
 def crawler_esun():
     url = "https://www.esunbank.com/zh-tw/personal/deposit/rate/forex/foreign-exchange-rates/"
@@ -70,6 +70,10 @@ def crawler_esun():
     connection.commit()
     logger.info("數據成功插入 MySQL")
           
+
+if __name__ == '__main__':   
+    crawler_esun()
+
 # scheduler = BackgroundScheduler(timezone='Asia/Taipei')
 # scheduler.add_job(
 #     crawler_esun,

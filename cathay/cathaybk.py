@@ -10,9 +10,8 @@ import requests
 from bs4 import BeautifulSoup
 import time
 import mysql.connector
-from apscheduler.schedulers.background import BackgroundScheduler
 from loguru import logger
-
+# from apscheduler.schedulers.background import BackgroundScheduler
 
 def crawler_cathaybk():
     url = "https://accessibility.cathaybk.com.tw/exchange-rate-search.aspx"
@@ -69,6 +68,9 @@ def crawler_cathaybk():
     connection.commit()
     logger.info("數據成功插入 MySQL")
 
+if __name__ == '__main__':
+    crawler_cathaybk()
+
 # scheduler = BackgroundScheduler(timezone='Asia/Taipei')
 # scheduler.add_job(
 #     crawler_cathaybk,
@@ -84,3 +86,5 @@ def crawler_cathaybk():
 
 # while True:
 #     time.sleep(6000)
+
+
