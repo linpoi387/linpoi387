@@ -38,6 +38,8 @@ jobs:
       - name: api_scheduler.py
         run: |
           pip install apscheduler
+          pip install loguru
+          pip install time
           python api_scheduler.py
 
       # Step 5: 停止 Docker Compose
