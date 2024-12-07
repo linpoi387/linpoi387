@@ -33,10 +33,11 @@ jobs:
       #       echo "Waiting for database connection..."
       #       sleep 3
       #     done
-
+        
       # Step 4: 執行爬蟲
       - name: api_scheduler.py
         run: |
+          pip install apscheduler
           python api_scheduler.py
 
       # Step 5: 停止 Docker Compose
