@@ -2,7 +2,7 @@ name: Scheduled Crawler
 
 on:
   schedule:
-    - cron: "0 12 * * *" # 每天凌晨 2 點執行
+    - cron: "0 4 * * *" # 每天UTC 4點 (台北12點)
 
 jobs:
   crawler:
@@ -16,7 +16,7 @@ jobs:
       # Step 2: 設定 Docker Compose
       - name: Set up Docker Compose
         run: |
-          docker-compose up -d
+          docker-compose -f mysql.yml up -d
 
       # Step 3: 等待 MySQL 啟動
       - name: Wait for MySQL to be ready
@@ -27,11 +27,11 @@ jobs:
           done
 
       # Step 4: 執行爬蟲
-      - name: Run crawler
+      - name: api_scheduler.py
         run: |
-          docker-compose run --rm python-app
+          python api_scheduler.py
 
       # Step 5: 停止 Docker Compose
       - name: Stop Docker Compose
         run: |
-          docker-compose down
+          docker-compose mysql.yml down
