@@ -33,7 +33,9 @@ jobs:
       #       echo "Waiting for database connection..."
       #       sleep 3
       #     done
-        
+      - name: Import SQL
+        run: |
+          docker exec -i mysql mysql -u root -ptest crawler < crawler.sql
       # Step 4: 執行爬蟲
       - name: api_scheduler.py
         run: |
