@@ -36,6 +36,11 @@ jobs:
       - name: Import SQL
         run: |
           docker exec -i mysql mysql -u root -ptest crawler < crawler.sql
+
+      # Step 5: Display phpMyAdmin URL
+      - name: Output phpMyAdmin URL
+        run: echo "phpMyAdmin is available at http://localhost:8080"
+        
       # Step 4: 執行爬蟲
       - name: api_scheduler.py
         run: |
