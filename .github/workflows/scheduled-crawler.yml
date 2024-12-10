@@ -28,7 +28,16 @@ jobs:
 
       - name: List running Docker containers
         run: docker ps
-        
+             docker network ls
+
+      - name: 等待 MySQL 啟動
+        run: |
+          for i in {1..10}; do
+            docker exec linpoi387_mysql_1 mysqladmin ping -h "127.0.0.1" -u root -ptest && break
+            echo "等待 MySQL 啟動..."
+            sleep 3
+          done
+          
       - name: Import SQL
         run: |
           docker exec -i linpoi387_mysql_1 mysql -u root -ptest crawler
