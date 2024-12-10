@@ -27,8 +27,9 @@ jobs:
           docker-compose -f mysql.yml up -d
 
       - name: List running Docker containers
-        run: docker ps
-             docker network ls
+        run: |
+          docker ps
+          docker network ls
 
       - name: 等待 MySQL 啟動
         run: |
