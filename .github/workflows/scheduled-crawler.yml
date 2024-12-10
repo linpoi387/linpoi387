@@ -26,13 +26,9 @@ jobs:
           docker network create my_network
           docker-compose -f mysql.yml up -d
 
-      # Step 3: 等待 MySQL 啟動
-      # - name: Wait for MySQL to be ready
-      #   run: |
-      #     while ! docker exec mysql mysqladmin ping -h"127.0.0.1" --silent; do
-      #       echo "Waiting for database connection..."
-      #       sleep 3
-      #     done
+      - name: List running Docker containers
+        run: docker ps
+        
       - name: Import SQL
         run: |
           docker exec -i linpoi387_mysql_1 mysql -u root -ptest -h my_network crawler < crawler.sql
