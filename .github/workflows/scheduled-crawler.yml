@@ -41,7 +41,7 @@ jobs:
           
       - name: Import SQL
         run: |
-          docker exec -i linpoi387_mysql_1 mysql -u root -ptest crawler < crawler.sql
+          docker exec -v /path/to/crawler.sql:/tmp/crawler.sql mysql:latest -i linpoi387_mysql_1 mysql -u root -ptest crawler < crawler.sql
 
       # Step 5: Display phpMyAdmin URL
       - name: Output phpMyAdmin URL
