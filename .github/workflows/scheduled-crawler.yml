@@ -41,7 +41,7 @@ jobs:
           
       - name: 共享crawler.sql
         run: |
-          docker run -v /path/to/crawler.sql:/tmp/crawler.sql mysql:latest
+          docker run -v /path/to/crawler.sql:/tmp/crawler.sql mysql:latest -e MYSQL_ROOT_PASSWORD=test
      
       - name: Import SQL
         run: |
