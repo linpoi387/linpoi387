@@ -39,9 +39,13 @@ jobs:
             sleep 3
           done
           
+      - name: 共享crawler.sql
+        run: |
+          docker run -v /path/to/crawler.sql:/tmp/crawler.sql mysql:latest
+     
       - name: Import SQL
         run: |
-          docker exec -v /path/to/crawler.sql:/tmp/crawler.sql mysql:latest -i linpoi387_mysql_1 mysql -u root -ptest crawler < crawler.sql
+          docker exec -i linpoi387_mysql_1 mysql -u root -ptest crawler < crawler.sql
 
       # Step 5: Display phpMyAdmin URL
       - name: Output phpMyAdmin URL
