@@ -13,7 +13,7 @@ services:
         #   published: 3306
         #   mode: host
       environment: # 環境變數, 設置 db, user, password, root_password
-          MYSQL_DATABASE: mydb
+          MYSQL_DATABASE: crawler
           MYSQL_USER: user
           MYSQL_PASSWORD: test
           MYSQL_ROOT_PASSWORD: test
