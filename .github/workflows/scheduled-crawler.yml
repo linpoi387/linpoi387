@@ -43,10 +43,7 @@ jobs:
         run: |
           docker exec -i linpoi387_mysql_1 mysql -u root -ptest crawler < crawler.sql
 
-      # Step 5: Display phpMyAdmin URL
-      - name: Output phpMyAdmin URL
-        run: echo "phpMyAdmin is available at http://localhost:8000"
-        
+      # Step 5: Display phpMyAdmin URL     
       - name: Install ngrok
         run: |
           curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
@@ -55,7 +52,7 @@ jobs:
           sudo apt install -y ngrok
           
       - name: Add ngrok authtoken
-        run: ngrok config add-authtoken 2hP7MbGlUD2gZvZFo6eXGTIxRsI_3yM5puFx4yTH4PQCFgSy4
+        run: ngrok config add-authtoken ${{ secrets.NGROK_AUTHTOKEN }}
         
       - name: Expose phpMyAdmin to the internet
         run: ngrok http 8000 &
