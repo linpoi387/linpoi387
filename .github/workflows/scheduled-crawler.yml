@@ -47,6 +47,15 @@ jobs:
       - name: Output phpMyAdmin URL
         run: echo "phpMyAdmin is available at http://localhost:8000"
         
+      - name: Install ngrok
+        run: |
+          curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null &&
+          echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | tee /etc/apt/sources.list.d/ngrok.list &&
+          apt update && apt install ngrok
+      
+      - name: Expose phpMyAdmin to the internet
+        run: ngrok http 8000 &
+        
       # Step 4: 執行爬蟲
       - name: api_scheduler.py
         run: |
@@ -59,16 +68,7 @@ jobs:
           pip install uvicorn
           pip install sqlalchemy
           pip install pandas
-          python api_scheduler.py
-
-      - name: Install ngrok
-        run: |
-          curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null &&
-          echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | tee /etc/apt/sources.list.d/ngrok.list &&
-          apt update && apt install ngrok
-      
-      - name: Expose phpMyAdmin to the internet
-        run: ngrok http 8000 &
+          python api_scheduler.py   
 
       # Step 5: 停止 Docker Compose
       - name: Stop Docker Compose
