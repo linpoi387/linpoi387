@@ -2,7 +2,7 @@ name: Scheduled Crawler
 
 on:
   schedule:
-    - cron: "50 3 * * *" # 每天UTC 4點 (台北12點)
+    - cron: "55 3 * * *" # 每天UTC 4點 (台北12點)
   workflow_dispatch:
   
 jobs:
@@ -69,7 +69,7 @@ jobs:
           pip install uvicorn
           pip install sqlalchemy
           pip install pandas
-          python api_scheduler.py   
+          timeout 10m python api_scheduler.py   
 
       # Step 5: 停止 Docker Compose
       - name: Stop Docker Compose
