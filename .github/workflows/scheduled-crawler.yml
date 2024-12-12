@@ -58,7 +58,7 @@ jobs:
         run: ngrok config add-authtoken 2hP7MbGlUD2gZvZFo6eXGTIxRsI_3yM5puFx4yTH4PQCFgSy4
         
       - name: Expose phpMyAdmin to the internet
-        run: ngrok http 8080 &
+        run: ngrok http 8000 &
         
       # Step 4: 執行爬蟲
       - name: api_scheduler.py
