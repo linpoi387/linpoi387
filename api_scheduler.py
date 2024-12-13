@@ -23,6 +23,6 @@ scheduler.add_job(
 logger.info('sent_crawler_task')
 scheduler.start()
 
-while True:
-    time.sleep(600)
+
+time.sleep(600)
 
