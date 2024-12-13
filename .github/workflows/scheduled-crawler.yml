@@ -71,7 +71,7 @@ jobs:
           
       # Step 4: 執行爬蟲
       - name: api_scheduler.py
-        run: timeout 10m python api_scheduler.py   
+        run: python api_scheduler.py   
           
       # Step 5: 停止 Docker Compose
       - name: Stop Docker Compose
