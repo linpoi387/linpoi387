@@ -56,9 +56,8 @@ jobs:
         
       - name: Expose phpMyAdmin to the internet
         run: ngrok http 8000 &
-        
-      # Step 4: 執行爬蟲
-      - name: api_scheduler.py
+
+      - name: pip install
         run: |
           pip install apscheduler
           pip install loguru
@@ -69,8 +68,11 @@ jobs:
           pip install uvicorn
           pip install sqlalchemy
           pip install pandas
-          timeout 10m python api_scheduler.py   
-
+          
+      # Step 4: 執行爬蟲
+      - name: api_scheduler.py
+        run: timeout 10m python api_scheduler.py   
+          
       # Step 5: 停止 Docker Compose
       - name: Stop Docker Compose
         run: |
