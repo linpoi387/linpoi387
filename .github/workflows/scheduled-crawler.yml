@@ -76,4 +76,4 @@ jobs:
       # Step 5: 停止 Docker Compose
       - name: Stop Docker Compose
         run: |
-          docker-compose mysql.yml down
+          docker-compose -f mysql.yml down
