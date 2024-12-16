@@ -24,6 +24,6 @@ scheduler.start()
 
 action = True
 while action:
-    time.sleep(300)
+    time.sleep(600)
     action = False
     
