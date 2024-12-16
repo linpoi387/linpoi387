@@ -13,15 +13,16 @@ scheduler = BackgroundScheduler(timezone='Asia/Taipei')
 scheduler.add_job(
     crawler,
     trigger = 'cron',
-    hour = 20,
-    minute = 47,
+    hour = 21,
+    minute = 15,
     day_of_week = '*',
     misfire_grace_time = 60  # 寬限時間為 60 秒      
     )
 
-
 logger.info('sent_crawler_task')
 scheduler.start()
+
+connection.commit()
 
 action = True
 while action:
