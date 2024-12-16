@@ -8,17 +8,6 @@ on:
 jobs:
   crawler:
     runs-on: ubuntu-latest
-    
-    services:
-      mysql:
-        image: mysql:latest
-        ports:
-          - "3306:3306"
-        options: >-
-          --volume=/path/in/actions:/var/lib/mysql
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ADMIN_PASSWORD }}
-          MYSQL_DATABASE: crawler
           
     steps:
       - name: Install Docker Compose
