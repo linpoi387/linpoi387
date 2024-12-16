@@ -8,7 +8,18 @@ on:
 jobs:
   crawler:
     runs-on: ubuntu-latest
-
+    
+    services:
+      mysql:
+        image: mysql:latest
+        ports:
+          - "3306:3306"
+        options: >-
+          --volume=/path/in/actions:/var/lib/mysql
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ADMIN_PASSWORD }}
+          MYSQL_DATABASE: crawler
+          
     steps:
       - name: Install Docker Compose
         run: |
@@ -77,6 +88,12 @@ jobs:
       - name: Export SQL
         run: |
           docker exec -i linpoi387_mysql_1 mysqldump -u root -p${{ secrets.MYSQL_ADMIN_PASSWORD }} crawler > crawler.sql
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: crawler.sql
+          path: ./crawler.sql    
           
       # Step 5: 停止 Docker Compose
       - name: Stop Docker Compose
