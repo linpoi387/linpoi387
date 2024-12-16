@@ -74,11 +74,9 @@ jobs:
         run: python api_scheduler.py   
 
       # Save the file as an artifact (replace the old one)
-      - name: Upload crawler.sql
-        uses: actions/upload-artifact@v3
-        with:
-          name: crawler.sql
-          path: crawler.sql
+      - name: Export SQL
+        run: |
+          docker exec -i linpoi387_mysql_1 mysql -u root -p${{ secrets.MYSQL_ADMIN_PASSWORD }} crawler > crawler.sql
           
       # Step 5: 停止 Docker Compose
       - name: Stop Docker Compose
