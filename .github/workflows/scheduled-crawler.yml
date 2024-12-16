@@ -72,6 +72,13 @@ jobs:
       # Step 4: 執行爬蟲
       - name: api_scheduler.py
         run: python api_scheduler.py   
+
+      # Save the file as an artifact (replace the old one)
+      - name: Upload crawler.sql
+        uses: actions/upload-artifact@v3
+        with:
+          name: crawler.sql
+          path: crawler.sql
           
       # Step 5: 停止 Docker Compose
       - name: Stop Docker Compose
