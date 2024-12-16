@@ -19,6 +19,7 @@ services:
           MYSQL_ROOT_PASSWORD: test
       volumes:
           - mysql:/var/lib/mysql
+          - ./crawler.sql:/docker-entrypoint-initdb.d/crawler.sql
           # share volumes of docker container to outside volume, 
           # let data persist
           # 將 docker container 的 volumes 跟外部 volumes 做連結, 
