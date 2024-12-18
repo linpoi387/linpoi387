@@ -34,14 +34,14 @@ jobs:
       - name: 等待 MySQL 啟動
         run: |
           for i in {1..10}; do
-            docker exec linpoi387_mysql_1 mysqladmin ping -h "127.0.0.1" -u root -ptest && break
+            docker exec linpoi387_mysql_1 mysqladmin ping -h "127.0.0.1" -u root -p${{ secrets.MYSQL_ADMIN_PASSWORD }} && break
             echo "等待 MySQL 啟動..."
             sleep 3
           done
           
       - name: Import SQL
         run: |
-          docker exec -i linpoi387_mysql_1 mysql -h 127.0.0.1 -u root -p${{ secrets.MYSQL_ADMIN_PASSWORD }} crawler < ./crawler.sql
+          docker exec -i linpoi387_mysql_1 mysql -h "127.0.0.1" -u root -p${{ secrets.MYSQL_ADMIN_PASSWORD }} crawler < ./crawler.sql
 
       # Step 5: Display phpMyAdmin URL     
       - name: Install ngrok
@@ -76,7 +76,7 @@ jobs:
       # Save the file as an artifact (replace the old one)
       - name: Export SQL
         run: |
-          docker exec -i linpoi387_mysql_1 mysqldump -h 127.0.0.1 -u root -p${{ secrets.MYSQL_ADMIN_PASSWORD }} crawler > ./crawler.sql
+          docker exec -i linpoi387_mysql_1 mysqldump -h "127.0.0.1" -u root -p${{ secrets.MYSQL_ADMIN_PASSWORD }} crawler > ./crawler.sql
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
