@@ -77,6 +77,14 @@ jobs:
       - name: Export SQL
         run: |
           docker exec -i linpoi387_mysql_1 mysqldump -u root -p${{ secrets.MYSQL_ADMIN_PASSWORD }} crawler > ./crawler.sql
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "linpoi387@gmail.com"
+          git config --local user.name "linpoi387"
+          git add crawler.sql
+          git commit -m "Update crawler database"
+          git push
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
