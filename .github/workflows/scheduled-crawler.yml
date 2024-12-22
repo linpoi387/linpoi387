@@ -80,20 +80,37 @@ jobs:
       - name: Export SQL
         run: |
           docker exec -i linpoi387_mysql_1 mysqldump -u root -p${{ secrets.MYSQL_ADMIN_PASSWORD }} crawler > ./crawler.sql
-
-      - name: Commit and push changes
-        run: |
-          git config --local user.email "linpoi387@gmail.com"
-          git config --local user.name "linpoi387"
-          git add crawler.sql
-          git commit -m "Update crawler database"
-          git push
-          
+         
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: crawler.sql
-          path: ./crawler.sql    
+          path: ./crawler.sql 
+          
+      # Step 1: 檢出儲存庫的內容
+      - name: Check out repository
+        uses: actions/checkout@v3
+  
+      # Step 2: 下載 Artifacts
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: crawler.sql # 替換為你的 Artifacts 名稱
+          path: ./artifacts # 將 Artifacts 下載到目錄
+  
+      # Step 3: 覆蓋儲存庫中的檔案
+      - name: Replace File
+        run: |
+          cp ./artifacts/crawler.sql ./crawler.sql # 將 Artifacts 的檔案覆蓋儲存庫的檔案
+  
+      # Step 4: 提交變更到儲存庫
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "linpoi387"
+          git config --global user.email "linpoi387@gmail.com"
+          git add ./crawler.sql
+          git commit -m "Update crawler.sql from Artifacts"
+          git push
           
       # Step 5: 停止 Docker Compose
       - name: Stop Docker Compose
