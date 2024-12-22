@@ -14,7 +14,7 @@ scheduler.add_job(
     crawler,
     trigger = 'cron',
     hour = 13,
-    minute = 28,
+    minute = 20,
     day_of_week = '*',
     misfire_grace_time = 60  # 寬限時間為 60 秒      
     )
