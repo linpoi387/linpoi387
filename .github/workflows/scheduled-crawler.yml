@@ -2,7 +2,7 @@ name: Scheduled Crawler
 
 on:
   schedule:
-    - cron: "40 3 * * *" # 每天UTC 4點 (台北12點)
+    - cron: "40 3 * * *" # 每天UTC 約3點45分 (約台北12點)
   workflow_dispatch:
   
 jobs:
