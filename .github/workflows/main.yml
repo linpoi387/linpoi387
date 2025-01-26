@@ -53,6 +53,9 @@ jobs:
         run: |
           python ./API/API_mysql.py
 
-      - name: foreign currency
-        run: |
-          foreign_currency.html
+      - uses: actions/checkout@v4
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./ # 指定包含 HTML 的目錄
