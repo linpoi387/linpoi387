@@ -57,4 +57,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
+          github_token: ${{ secrets.HTML_TOKEN }}
           publish_dir: ./ # 指定包含 HTML 的目錄
