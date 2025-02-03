@@ -20,7 +20,7 @@ jobs:
           
       # Step 1: 檢出程式碼
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Step 2: 設定 Docker Compose
       - name: Set up Docker Compose
@@ -82,18 +82,18 @@ jobs:
           docker exec -i linpoi387_mysql_1 mysqldump -u root -p${{ secrets.MYSQL_ADMIN_PASSWORD }} crawler > ./crawler.sql
          
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: crawler.sql
           path: ./crawler.sql 
           
       # Step 1: 檢出儲存庫的內容
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
   
       # Step 2: 下載 Artifacts
       - name: Download Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: crawler.sql # 替換為你的 Artifacts 名稱
           path: ./artifacts # 將 Artifacts 下載到目錄
