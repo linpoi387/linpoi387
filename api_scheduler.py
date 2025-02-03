@@ -13,7 +13,7 @@ scheduler = BackgroundScheduler(timezone='Asia/Taipei')
 scheduler.add_job(
     crawler,
     trigger = 'cron',
-    hour = 14,
+    hour = 12,
     # minute = 5,
     day_of_week = '*',
     misfire_grace_time = 60  # 寬限時間為 60 秒      
