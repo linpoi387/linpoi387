@@ -53,9 +53,15 @@ jobs:
         run: |
           python ./API/API_mysql.py
 
-      - uses: actions/checkout@v4
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.HTML_TOKEN }}
-          publish_dir: ./ # 指定包含 HTML 的目錄
+      - name: Install ngrok
+        run: |
+          curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
+          echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+          sudo apt update
+          sudo apt install -y ngrok
+          
+      - name: Add ngrok authtoken
+        run: ngrok config add-authtoken ${{ secrets.NGROK_AUTHTOKEN }}
+        
+      - name: Expose phpMyAdmin to the internet
+        run: ngrok http 8000 &
