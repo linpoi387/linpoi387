@@ -81,14 +81,23 @@
                     <script>
                         document.getElementById("usd_date").addEventListener("change", function() { 
                             // 先將表格背景還原                        
-                            document.getElementById("buy_esun_usd").style.background = "white";
-                            document.getElementById("buy_cath_usd").style.background = "white";
-                            document.getElementById("sell_esun_usd").style.background = "white";
-                            document.getElementById("sell_cath_usd").style.background = "white";
-                            document.getElementById("buy_cash_esun_usd").style.background = "white";
-                            document.getElementById("buy_cash_cath_usd").style.background = "white";
-                            document.getElementById("sell_cash_esun_usd").style.background = "white";
-                            document.getElementById("sell_cash_cath_usd").style.background = "white";
+                            document.getElementById("buy_esun_usd").removeAttribute('style');
+                            document.getElementById("buy_cath_usd").removeAttribute('style');
+                            document.getElementById("sell_esun_usd").removeAttribute('style');
+                            document.getElementById("sell_cath_usd").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_usd").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_usd").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_usd").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_usd").removeAttribute('style');
+
+                            document.getElementById("buy_esun_usd").inneHTML = '';
+                            document.getElementById("buy_cath_usd").inneHTML = '';
+                            document.getElementById("sell_esun_usd").inneHTML = '';
+                            document.getElementById("sell_cath_usd").inneHTML = '';
+                            document.getElementById("buy_cash_esun_usd").inneHTML = '';
+                            document.getElementById("buy_cash_cath_usd").inneHTML = '';
+                            document.getElementById("sell_cash_esun_usd").inneHTML = '';
+                            document.getElementById("sell_cash_cath_usd").inneHTML = '';
 
                             const selectedDate = this.value;
                 
@@ -221,14 +230,23 @@
                     </tbody>
                     <script>
                         document.getElementById("jpy_date").addEventListener("change", function() {
-                            document.getElementById("buy_esun_jpy").style.background = "white";
-                            document.getElementById("buy_cath_jpy").style.background = "white";
-                            document.getElementById("sell_esun_jpy").style.background = "white";
-                            document.getElementById("sell_cath_jpy").style.background = "white";
-                            document.getElementById("buy_cash_esun_jpy").style.background = "white";
-                            document.getElementById("buy_cash_cath_jpy").style.background = "white";
-                            document.getElementById("sell_cash_esun_jpy").style.background = "white";
-                            document.getElementById("sell_cash_cath_jpy").style.background = "white";
+                            document.getElementById("buy_esun_jpy").removeAttribute('style');
+                            document.getElementById("buy_cath_jpy").removeAttribute('style');
+                            document.getElementById("sell_esun_jpy").removeAttribute('style');
+                            document.getElementById("sell_cath_jpy").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_jpy").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_jpy").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_jpy").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_jpy").removeAttribute('style');
+
+                            document.getElementById("buy_esun_jpy").inneHTML = '';
+                            document.getElementById("buy_cath_jpy").innerHTML = '';
+                            document.getElementById("sell_esun_jpy").innerHTML = '';
+                            document.getElementById("sell_cath_jpy").innerHTML = '';
+                            document.getElementById("buy_cash_esun_jpy").innerHTML = '';
+                            document.getElementById("buy_cash_cath_jpy").innerHTML = '';
+                            document.getElementById("sell_cash_esun_jpy").innerHTML = '';
+                            document.getElementById("sell_cash_cath_jpy").innerHTML = '';
                           
                             const selectedDate = this.value;
                 
@@ -350,14 +368,23 @@
                     </tbody>
                     <script>
                         document.getElementById("hkd_date").addEventListener("change", function() {
-                            document.getElementById("buy_esun_hkd").style.background = "white";
-                            document.getElementById("buy_cath_hkd").style.background = "white";
-                            document.getElementById("sell_esun_hkd").style.background = "white";
-                            document.getElementById("sell_cath_hkd").style.background = "white";
-                            document.getElementById("buy_cash_esun_hkd").style.background = "white";
-                            document.getElementById("buy_cash_cath_hkd").style.background = "white";
-                            document.getElementById("sell_cash_esun_hkd").style.background = "white";
-                            document.getElementById("sell_cash_cath_hkd").style.background = "white";
+                            document.getElementById("buy_esun_hkd").removeAttribute('style');
+                            document.getElementById("buy_cath_hkd").removeAttribute('style');
+                            document.getElementById("sell_esun_hkd").removeAttribute('style');
+                            document.getElementById("sell_cath_hkd").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_hkd").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_hkd").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_hkd").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_hkd").removeAttribute('style');
+
+                            document.getElementById("buy_esun_hkd").innerHTML = '';
+                            document.getElementById("buy_cath_hkd").innerHTML = '';
+                            document.getElementById("sell_esun_hkd").innerHTML = '';
+                            document.getElementById("sell_cath_hkd").innerHTML = '';
+                            document.getElementById("buy_cash_esun_hkd").innerHTML = '';
+                            document.getElementById("buy_cash_cath_hkd").innerHTML = '';
+                            document.getElementById("sell_cash_esun_hkd").innerHTML = '';
+                            document.getElementById("sell_cash_cath_hkd").innerHTML = '';
                           
                             const selectedDate = this.value;
                 
@@ -479,14 +506,23 @@
                     </tbody>
                     <script>
                         document.getElementById("cny_date").addEventListener("change", function() {
-                            document.getElementById("buy_esun_cny").style.background = "white";
-                            document.getElementById("buy_cath_cny").style.background = "white";
-                            document.getElementById("sell_esun_cny").style.background = "white";
-                            document.getElementById("sell_cath_cny").style.background = "white";
-                            document.getElementById("buy_cash_esun_cny").style.background = "white";
-                            document.getElementById("buy_cash_cath_cny").style.background = "white";
-                            document.getElementById("sell_cash_esun_cny").style.background = "white";
-                            document.getElementById("sell_cash_cath_cny").style.background = "white";
+                            document.getElementById("buy_esun_cny").removeAttribute('style');
+                            document.getElementById("buy_cath_cny").removeAttribute('style');
+                            document.getElementById("sell_esun_cny").removeAttribute('style');
+                            document.getElementById("sell_cath_cny").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_cny").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_cny").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_cny").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_cny").removeAttribute('style');
+
+                            document.getElementById("buy_esun_cny").innerHTML = '';
+                            document.getElementById("buy_cath_cny").innerHTML = '';
+                            document.getElementById("sell_esun_cny").innerHTML = '';
+                            document.getElementById("sell_cath_cny").innerHTML = '';
+                            document.getElementById("buy_cash_esun_cny").innerHTML = '';
+                            document.getElementById("buy_cash_cath_cny").innerHTML = '';
+                            document.getElementById("sell_cash_esun_cny").innerHTML = '';
+                            document.getElementById("sell_cash_cath_cny").innerHTML = '';
                     
                             const selectedDate = this.value;
                 
@@ -608,15 +644,24 @@
                     </tbody>
                     <script>
                         document.getElementById("eur_date").addEventListener("change", function() {
-                            document.getElementById("buy_esun_eur").style.background = "white";
-                            document.getElementById("buy_cath_eur").style.background = "white";
-                            document.getElementById("sell_esun_eur").style.background = "white";
-                            document.getElementById("sell_cath_eur").style.background = "white";
-                            document.getElementById("buy_cash_esun_eur").style.background = "white";
-                            document.getElementById("buy_cash_cath_eur").style.background = "white";
-                            document.getElementById("sell_cash_esun_eur").style.background = "white";
-                            document.getElementById("sell_cash_cath_eur").style.background = "white";
-                          
+                            document.getElementById("buy_esun_eur").removeAttribute('style');
+                            document.getElementById("buy_cath_eur").removeAttribute('style');
+                            document.getElementById("sell_esun_eur").removeAttribute('style');
+                            document.getElementById("sell_cath_eur").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_eur").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_eur").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_eur").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_eur").removeAttribute('style');
+                            
+                            document.getElementById("buy_esun_eur").innerHTML = '';
+                            document.getElementById("buy_cath_eur").innerHTML = '';
+                            document.getElementById("sell_esun_eur").innerHTML = '';
+                            document.getElementById("sell_cath_eur").innerHTML = '';
+                            document.getElementById("buy_cash_esun_eur").innerHTML = '';
+                            document.getElementById("buy_cash_cath_eur").innerHTML = '';
+                            document.getElementById("sell_cash_esun_eur").innerHTML = '';
+                            document.getElementById("sell_cash_cath_eur").innerHTML = '';
+
                             const selectedDate = this.value;
                 
                             const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
@@ -737,14 +782,23 @@
                     </tbody>
                     <script>
                         document.getElementById("aud_date").addEventListener("change", function() {
-                            document.getElementById("buy_esun_aud").style.background = "white";
-                            document.getElementById("buy_cath_aud").style.background = "white";
-                            document.getElementById("sell_esun_aud").style.background = "white";
-                            document.getElementById("sell_cath_aud").style.background = "white";
-                            document.getElementById("buy_cash_esun_aud").style.background = "white";
-                            document.getElementById("buy_cash_cath_aud").style.background = "white";
-                            document.getElementById("sell_cash_esun_aud").style.background = "white";
-                            document.getElementById("sell_cash_cath_aud").style.background = "white";
+                            document.getElementById("buy_esun_aud").removeAttribute('style');
+                            document.getElementById("buy_cath_aud").removeAttribute('style');
+                            document.getElementById("sell_esun_aud").removeAttribute('style');
+                            document.getElementById("sell_cath_aud").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_aud").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_aud").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_aud").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_aud").removeAttribute('style');
+
+                            document.getElementById("buy_esun_aud").innerHTML = '';
+                            document.getElementById("buy_cath_aud").innerHTML = '';
+                            document.getElementById("sell_esun_aud").innerHTML = '';
+                            document.getElementById("sell_cath_aud").innerHTML = '';
+                            document.getElementById("buy_cash_esun_aud").innerHTML = '';
+                            document.getElementById("buy_cash_cath_aud").innerHTML = '';
+                            document.getElementById("sell_cash_esun_aud").innerHTML = '';
+                            document.getElementById("sell_cash_cath_aud").innerHTML = '';
                           
                             const selectedDate = this.value;
                 
@@ -866,15 +920,24 @@
                     </tbody>
                     <script>
                         document.getElementById("cad_date").addEventListener("change", function() {
-                            document.getElementById("buy_esun_cad").style.background = "white";
-                            document.getElementById("buy_cath_cad").style.background = "white";
-                            document.getElementById("sell_esun_cad").style.background = "white";
-                            document.getElementById("sell_cath_cad").style.background = "white";
-                            document.getElementById("buy_cash_esun_cad").style.background = "white";
-                            document.getElementById("buy_cash_cath_cad").style.background = "white";
-                            document.getElementById("sell_cash_esun_cad").style.background = "white";
-                            document.getElementById("sell_cash_cath_cad").style.background = "white";
-                          
+                            document.getElementById("buy_esun_cad").removeAttribute('style');
+                            document.getElementById("buy_cath_cad").removeAttribute('style');
+                            document.getElementById("sell_esun_cad").removeAttribute('style');
+                            document.getElementById("sell_cath_cad").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_cad").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_cad").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_cad").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_cad").removeAttribute('style');
+                            
+                            document.getElementById("buy_esun_cad").innerHTML = '';
+                            document.getElementById("buy_cath_cad").innerHTML = '';
+                            document.getElementById("sell_esun_cad").innerHTML = '';
+                            document.getElementById("sell_cath_cad").innerHTML = '';
+                            document.getElementById("buy_cash_esun_cad").innerHTML = '';
+                            document.getElementById("buy_cash_cath_cad").innerHTML = '';
+                            document.getElementById("sell_cash_esun_cad").innerHTML = '';
+                            document.getElementById("sell_cash_cath_cad").innerHTML = '';
+
                             const selectedDate = this.value;
                 
                             const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
@@ -996,15 +1059,24 @@
                     </tbody>
                     <script>
                         document.getElementById("sgd_date").addEventListener("change", function() {
-                            document.getElementById("buy_esun_sgd").style.background = "white";
-                            document.getElementById("buy_cath_sgd").style.background = "white";
-                            document.getElementById("sell_esun_sgd").style.background = "white";
-                            document.getElementById("sell_cath_sgd").style.background = "white";
-                            document.getElementById("buy_cash_esun_sgd").style.background = "white";
-                            document.getElementById("buy_cash_cath_sgd").style.background = "white";
-                            document.getElementById("sell_cash_esun_sgd").style.background = "white";
-                            document.getElementById("sell_cash_cath_sgd").style.background = "white";
-                          
+                            document.getElementById("buy_esun_sgd").removeAttribute('style');
+                            document.getElementById("buy_cath_sgd").removeAttribute('style');
+                            document.getElementById("sell_esun_sgd").removeAttribute('style');
+                            document.getElementById("sell_cath_sgd").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_sgd").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_sgd").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_sgd").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_sgd").removeAttribute('style');
+                            
+                            document.getElementById("buy_esun_sgd").innerHTML = '';
+                            document.getElementById("buy_cath_sgd").innerHTML = '';
+                            document.getElementById("sell_esun_sgd").innerHTML = '';
+                            document.getElementById("sell_cath_sgd").innerHTML = '';
+                            document.getElementById("buy_cash_esun_sgd").innerHTML = '';
+                            document.getElementById("buy_cash_cath_sgd").innerHTML = '';
+                            document.getElementById("sell_cash_esun_sgd").innerHTML = '';
+                            document.getElementById("sell_cash_cath_sgd").innerHTML = '';
+
                             const selectedDate = this.value;
                 
                             const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
@@ -1125,14 +1197,23 @@
                     </tbody>
                     <script>
                         document.getElementById("thb_date").addEventListener("change", function() {
-                            document.getElementById("buy_esun_thb").style.background = "white";
-                            document.getElementById("buy_cath_thb").style.background = "white";
-                            document.getElementById("sell_esun_thb").style.background = "white";
-                            document.getElementById("sell_cath_thb").style.background = "white";
-                            document.getElementById("buy_cash_esun_thb").style.background = "white";
-                            document.getElementById("buy_cash_cath_thb").style.background = "white";
-                            document.getElementById("sell_cash_esun_thb").style.background = "white";
-                            document.getElementById("sell_cash_cath_thb").style.background = "white";
+                            document.getElementById("buy_esun_thb").removeAttribute('style');
+                            document.getElementById("buy_cath_thb").removeAttribute('style');
+                            document.getElementById("sell_esun_thb").removeAttribute('style');
+                            document.getElementById("sell_cath_thb").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_thb").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_thb").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_thb").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_thb").removeAttribute('style');
+
+                            document.getElementById("buy_esun_thb").innerHTML = '';
+                            document.getElementById("buy_cath_thb").innerHTML = '';
+                            document.getElementById("sell_esun_thb").innerHTML = '';
+                            document.getElementById("sell_cath_thb").innerHTML = '';
+                            document.getElementById("buy_cash_esun_thb").innerHTML = '';
+                            document.getElementById("buy_cash_cath_thb").innerHTML = '';
+                            document.getElementById("sell_cash_esun_thb").innerHTML = '';
+                            document.getElementById("sell_cash_cath_thb").innerHTML = '';
                           
                             const selectedDate = this.value;
                 
@@ -1254,14 +1335,23 @@
                     </tbody>
                     <script>
                         document.getElementById("nzd_date").addEventListener("change", function() {
-                            document.getElementById("buy_esun_nzd").style.background = "white";
-                            document.getElementById("buy_cath_nzd").style.background = "white";
-                            document.getElementById("sell_esun_nzd").style.background = "white";
-                            document.getElementById("sell_cath_nzd").style.background = "white";
-                            document.getElementById("buy_cash_esun_nzd").style.background = "white";
-                            document.getElementById("buy_cash_cath_nzd").style.background = "white";
-                            document.getElementById("sell_cash_esun_nzd").style.background = "white";
-                            document.getElementById("sell_cash_cath_nzd").style.background = "white";
+                            document.getElementById("buy_esun_nzd").removeAttribute('style');
+                            document.getElementById("buy_cath_nzd").removeAttribute('style');
+                            document.getElementById("sell_esun_nzd").removeAttribute('style');
+                            document.getElementById("sell_cath_nzd").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_nzd").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_nzd").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_nzd").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_nzd").removeAttribute('style');
+
+                            document.getElementById("buy_esun_nzd").innerHTML = '';
+                            document.getElementById("buy_cath_nzd").innerHTML = '';
+                            document.getElementById("sell_esun_nzd").innerHTML = '';
+                            document.getElementById("sell_cath_nzd").innerHTML = '';
+                            document.getElementById("buy_cash_esun_nzd").innerHTML = '';
+                            document.getElementById("buy_cash_cath_nzd").innerHTML = '';
+                            document.getElementById("sell_cash_esun_nzd").innerHTML = '';
+                            document.getElementById("sell_cash_cath_nzd").innerHTML = '';
 
                             const selectedDate = this.value;
                 
@@ -1383,14 +1473,23 @@
                     </tbody>
                     <script>
                         document.getElementById("gbp_date").addEventListener("change", function() {
-                            document.getElementById("buy_esun_gbp").style.background = "white";
-                            document.getElementById("buy_cath_gbp").style.background = "white";
-                            document.getElementById("sell_esun_gbp").style.background = "white";
-                            document.getElementById("sell_cath_gbp").style.background = "white";
-                            document.getElementById("buy_cash_esun_gbp").style.background = "white";
-                            document.getElementById("buy_cash_cath_gbp").style.background = "white";
-                            document.getElementById("sell_cash_esun_gbp").style.background = "white";
-                            document.getElementById("sell_cash_cath_gbp").style.background = "white";
+                            document.getElementById("buy_esun_gbp").removeAttribute('style');
+                            document.getElementById("buy_cath_gbp").removeAttribute('style');
+                            document.getElementById("sell_esun_gbp").removeAttribute('style');
+                            document.getElementById("sell_cath_gbp").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_gbp").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_gbp").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_gbp").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_gbp").removeAttribute('style');
+
+                            document.getElementById("buy_esun_gbp").innerHTML = '';
+                            document.getElementById("buy_cath_gbp").innerHTML = '';
+                            document.getElementById("sell_esun_gbp").innerHTML = '';
+                            document.getElementById("sell_cath_gbp").innerHTML = '';
+                            document.getElementById("buy_cash_esun_gbp").innerHTML = '';
+                            document.getElementById("buy_cash_cath_gbp").innerHTML = '';
+                            document.getElementById("sell_cash_esun_gbp").innerHTML = '';
+                            document.getElementById("sell_cash_cath_gbp").innerHTML = '';
                           
                             const selectedDate = this.value;
                 
@@ -1512,14 +1611,23 @@
                     </tbody>
                     <script>
                         document.getElementById("chf_date").addEventListener("change", function() {
-                            document.getElementById("buy_esun_chf").style.background = "white";
-                            document.getElementById("buy_cath_chf").style.background = "white";
-                            document.getElementById("sell_esun_chf").style.background = "white";
-                            document.getElementById("sell_cath_chf").style.background = "white";
-                            document.getElementById("buy_cash_esun_chf").style.background = "white";
-                            document.getElementById("buy_cash_cath_chf").style.background = "white";
-                            document.getElementById("sell_cash_esun_chf").style.background = "white";
-                            document.getElementById("sell_cash_cath_chf").style.background = "white";
+                            document.getElementById("buy_esun_chf").removeAttribute('style');
+                            document.getElementById("buy_cath_chf").removeAttribute('style');
+                            document.getElementById("sell_esun_chf").removeAttribute('style');
+                            document.getElementById("sell_cath_chf").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_chf").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_chf").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_chf").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_chf").removeAttribute('style');
+
+                            document.getElementById("buy_esun_chf").innerHTML = '';
+                            document.getElementById("buy_cath_chf").innerHTML = '';
+                            document.getElementById("sell_esun_chf").innerHTML = '';
+                            document.getElementById("sell_cath_chf").innerHTML = '';
+                            document.getElementById("buy_cash_esun_chf").innerHTML = '';
+                            document.getElementById("buy_cash_cath_chf").innerHTML = '';
+                            document.getElementById("sell_cash_esun_chf").innerHTML = '';
+                            document.getElementById("sell_cash_cath_chf").innerHTML = '';
                           
                             const selectedDate = this.value;
                 
@@ -1641,14 +1749,23 @@
                     </tbody>
                     <script>
                         document.getElementById("zar_date").addEventListener("change", function() {
-                            document.getElementById("buy_esun_zar").style.background = "white";
-                            document.getElementById("buy_cath_zar").style.background = "white";
-                            document.getElementById("sell_esun_zar").style.background = "white";
-                            document.getElementById("sell_cath_zar").style.background = "white";
-                            document.getElementById("buy_cash_esun_zar").style.background = "white";
-                            document.getElementById("buy_cash_cath_zar").style.background = "white";
-                            document.getElementById("sell_cash_esun_zar").style.background = "white";
-                            document.getElementById("sell_cash_cath_zar").style.background = "white";
+                            document.getElementById("buy_esun_zar").removeAttribute('style');
+                            document.getElementById("buy_cath_zar").removeAttribute('style');
+                            document.getElementById("sell_esun_zar").removeAttribute('style');
+                            document.getElementById("sell_cath_zar").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_zar").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_zar").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_zar").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_zar").removeAttribute('style');
+
+                            document.getElementById("buy_esun_zar").innerHTML = '';
+                            document.getElementById("buy_cath_zar").innerHTML = '';
+                            document.getElementById("sell_esun_zar").innerHTML = '';
+                            document.getElementById("sell_cath_zar").innerHTML = '';
+                            document.getElementById("buy_cash_esun_zar").innerHTML = '';
+                            document.getElementById("buy_cash_cath_zar").innerHTML = '';
+                            document.getElementById("sell_cash_esun_zar").innerHTML = '';
+                            document.getElementById("sell_cash_cath_zar").innerHTML = '';
 
                             const selectedDate = this.value;
                 
