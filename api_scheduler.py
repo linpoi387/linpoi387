@@ -4,6 +4,7 @@ from loguru import logger
 from cathay.cathaybk import crawler_cathaybk
 from esun.esun_crawler import crawler_esun
 import time
+import datetime
 
 
 def crawler():
