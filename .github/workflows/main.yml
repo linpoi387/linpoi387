@@ -75,5 +75,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
 
-      - name: wait for 30 mins for phpmyadmin
-        run : sleep 1800
+      - name: wait for 10 mins for phpmyadmin
+        run : sleep 600
