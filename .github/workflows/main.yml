@@ -66,8 +66,11 @@ jobs:
       - name: fastapi
         run: python ./API/API_mysql.py
           
-      - name: foreign currency
-        run: foreign_currency.html
+      - name: Deploy HTML to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
 
       - name: wait for 30 mins
         run : sleep 1800
