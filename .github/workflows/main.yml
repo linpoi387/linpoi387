@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  crawler:
+  checkout:
     runs-on: ubuntu-latest
       
     steps:
@@ -15,7 +15,7 @@ jobs:
           
       # Step 1: 檢出程式碼
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Step 2: 設定 Docker Compose
       - name: Set up Docker Compose
@@ -41,18 +41,7 @@ jobs:
         run: |
           docker exec -i linpoi387_mysql_1 mysql -u root -p${{ secrets.MYSQL_ADMIN_PASSWORD }} crawler < ./crawler.sql
 
-      - name: pip install
-        run: |
-          pip install mysql.connector
-          pip install fastapi
-          pip install uvicorn
-          pip install sqlalchemy
-          pip install pandas
-        
-      - name: fastapi
-        run: |
-          python ./API/API_mysql.py
-
+      # Display phpMyAdmin URL  
       - name: Install ngrok
         run: |
           curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
@@ -65,3 +54,17 @@ jobs:
         
       - name: Expose phpMyAdmin to the internet
         run: ngrok http 8000 &
+
+      - name: pip install
+        run: |
+          pip install mysql.connector
+          pip install fastapi
+          pip install uvicorn
+          pip install sqlalchemy
+          pip install pandas
+        
+      - name: fastapi
+        run: |
+          python ./API/API_mysql.py
+
+      
