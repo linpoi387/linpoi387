@@ -2,6 +2,9 @@ name: Checkout
 
 on:
   workflow_dispatch:
+  
+permissions:
+  contents: write
 
 jobs:
   checkout:
@@ -72,5 +75,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
 
-      - name: wait for 30 mins
-        run : sleep 1800
