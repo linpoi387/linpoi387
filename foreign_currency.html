@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<style>table, th, td {border: 1px solid black;}</style>
+<style>td {text-align: center};</style>
+
+
+
+<body>
+    <div class="container-fluid p-5 bg-info text-white text-center">
+        <h1>My foreign currency</h1>
+        <p>amazing!</p>
+    </div>
+    <div class="col-sm-3" ></div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" style="position: fixed ; left: 150px ; width: 100px"
+                data-bs-toggle="dropdown">幣別</button>
+            <ul class="dropdown-menu">                            
+                <li><a class="dropdown-item" href="#usd">美元</a></li>
+                <li><a class="dropdown-item" href="#jpy">日圓</a></li>                      
+                <li><a class="dropdown-item" href="#hkd">港幣</a></li>                         
+                <li><a class="dropdown-item" href="#cny">人民幣</a></li>
+                <li><a class="dropdown-item" href="#eur">歐元</a></li>
+                <li><a class="dropdown-item" href="#aud">澳大利亞幣</a></li>
+                <li><a class="dropdown-item" href="#cad">加拿大幣</a></li>
+                <li><a class="dropdown-item" href="#sgd">新加坡幣</a></li>
+                <li><a class="dropdown-item" href="#thb">泰銖</a></li>
+                <li><a class="dropdown-item" href="#nzd">紐西蘭幣</a></li>
+                <li><a class="dropdown-item" href="#gbp">英鎊</a></li>
+                <li><a class="dropdown-item" href="#chf">瑞士法郎</a></li>
+                <li><a class="dropdown-item" href="#zar">南非幣</a></li>
+            </ul>
+        </div>                                
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div>
+                <h3 id="usd">
+                    美元
+                    <input type="date" id="usd_date" class="form-control w-auto">
+                </h3>
+                
+                <table width="100%" >
+                    <thead style="text-align: center">                   
+                        <tr>
+                            <th>銀行名稱</th>
+                            <th>銀行買入(即期)</th>
+                            <th>銀行賣出(即期)</th>
+                            <th>銀行買入(現鈔)</th>
+                            <th>銀行賣出(現鈔)</th>
+                            <th>時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr>
+                            <th>玉山銀行</th>
+                            <td id="buy_esun_usd"></td>
+                            <td id="sell_esun_usd"></td>
+                            <td id="buy_cash_esun_usd"></td>
+                            <td id="sell_cash_esun_usd"></td>
+                            <td id="timestamp_esun_usd"></td>
+                        </tr>
+                        <tr>
+                            <th >國泰世華銀行</th>
+                            <td id="buy_cath_usd"></td>
+                            <td id="sell_cath_usd"></td>
+                            <td id="buy_cash_cath_usd"></td>
+                            <td id="sell_cash_cath_usd"></td>
+                            <td id="timestamp_cath_usd"></td>
+                        </tr>
+                        
+                    </tbody>
+                    <script>
+                        document.getElementById("usd_date").addEventListener("change", function() { 
+                            // 先將表格背景還原                        
+                            document.getElementById("buy_esun_usd").removeAttribute('style');
+                            document.getElementById("buy_cath_usd").removeAttribute('style');
+                            document.getElementById("sell_esun_usd").removeAttribute('style');
+                            document.getElementById("sell_cath_usd").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_usd").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_usd").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_usd").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_usd").removeAttribute('style');
+
+                            document.getElementById("buy_esun_usd").innerHTML = '';
+                            document.getElementById("buy_cath_usd").innerHTML = '';
+                            document.getElementById("sell_esun_usd").innerHTML = '';
+                            document.getElementById("sell_cath_usd").innerHTML = '';
+                            document.getElementById("buy_cash_esun_usd").innerHTML = '';
+                            document.getElementById("buy_cash_cath_usd").innerHTML = '';
+                            document.getElementById("sell_cash_esun_usd").innerHTML = '';
+                            document.getElementById("sell_cash_cath_usd").innerHTML = '';
+                            document.getElementById("timestamp_esun_usd").innerHTML = '';
+                            document.getElementById("timestamp_cath_usd").innerHTML = '';
+
+                            const selectedDate = this.value;
+                
+                            // const banks = ["esun", "cathaybk"];
+                            // const buys = [];
+                            
+                            // const apiBank = `http://127.0.0.1:8888/foreign_currency?bank=${bank}&date=${selectedDate}`;
+                            const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
+                            const apiCathay = `http://127.0.0.1:8888/cathaybk_foreign_currency?date=${selectedDate}`;
+                            // const apiEsun = `http://host.docker.internal/esun_foreign_currency?date=${selectedDate}`;
+                            // const apiCathay = `http://host.docker.internal/cathaybk_foreign_currency?date=${selectedDate}`;
+
+                            async function getBankDataUSD() {
+                                
+                            // 使用 Fetch API 發送 GET 請求
+                                let esunResponse = await fetch(apiEsun);
+                                let cathResponse = await fetch(apiCathay);
+
+                                let esunText = await esunResponse.text();
+                                let cathText = await cathResponse.text();
+
+                                const esunJson = JSON.parse(esunText);
+                                const cathJson = JSON.parse(cathText);
+
+                                // alert('esun buy = ' + esunJson.data[0].buy + 'cath buy = ' + cathJson.data[0].buy);
+                                
+                                let buy_esun = parseFloat(esunJson.data[0].buy);
+                                let buy_cath = parseFloat(cathJson.data[0].buy);
+                                let sell_esun = parseFloat(esunJson.data[0].sell);
+                                let sell_cath = parseFloat(cathJson.data[0].sell);
+                                let buy_cash_esun = parseFloat(esunJson.data[0].buy_cash);
+                                let buy_cash_cath = parseFloat(cathJson.data[0].buy_cash);
+                                let sell_cash_esun = parseFloat(esunJson.data[0].sell_cash);
+                                let sell_cash_cath = parseFloat(cathJson.data[0].sell_cash);
+
+                                let buy_list = [buy_esun, buy_cath, ]
+                                let sell_list = [sell_esun, sell_cath, ]
+                                let buy_cash_list = [buy_cash_esun, buy_cash_cath, ]
+                                let sell_cash_list = [sell_cash_esun, sell_cash_cath, ]
+                            
+                                if (Math.max(...buy_list) == buy_esun){        
+                                    document.getElementById("buy_esun_usd").style.background = "#FFC080";
+                                }else if (Math.max(...buy_list) == buy_cath){        
+                                    document.getElementById("buy_cath_usd").style.background = "#FFC080";
+                                }
+                               
+                                if (Math.min(...sell_list) == sell_esun){        
+                                    document.getElementById("sell_esun_usd").style.background = "#FFC080";
+                                }else if (Math.min(...sell_list) == sell_cath){        
+                                    document.getElementById("sell_cath_usd").style.background = "#FFC080";
+                                }
+
+                                if (Math.max(...buy_cash_list) == buy_cash_esun){        
+                                    document.getElementById("buy_cash_esun_usd").style.background = "#FFC080";
+                                }else if (Math.max(...buy_cash_list) == buy_cash_cath){        
+                                    document.getElementById("buy_cash_cath_usd").style.background = "#FFC080";
+                                }
+
+                                if (Math.min(...sell_cash_list) == sell_cash_esun){        
+                                    document.getElementById("sell_cash_esun_usd").style.background = "#FFC080";
+                                }else if (Math.min(...sell_cash_list) == sell_cash_cath){        
+                                    document.getElementById("sell_cash_cath_usd").style.background = "#FFC080";
+                                }
+
+
+                                fetch(apiEsun)
+                                    .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                    .then(data => {
+
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_esun_usd").textContent = parseFloat(data.data[0].buy);
+                                    document.getElementById("sell_esun_usd").textContent = parseFloat(data.data[0].sell);
+                                    document.getElementById("buy_cash_esun_usd").textContent = parseFloat(data.data[0].buy_cash);
+                                    document.getElementById("sell_cash_esun_usd").textContent = parseFloat(data.data[0].sell_cash);
+                                    document.getElementById("timestamp_esun_usd").textContent = data.data[0].timestamp;
+                                })
+
+                                fetch(apiCathay)
+                                    .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                    .then(data => {                                   
+
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_cath_usd").textContent = parseFloat(data.data[0].buy);
+                                    document.getElementById("sell_cath_usd").textContent = parseFloat(data.data[0].sell);
+                                    document.getElementById("buy_cash_cath_usd").textContent = parseFloat(data.data[0].buy_cash);
+                                    document.getElementById("sell_cash_cath_usd").textContent = parseFloat(data.data[0].sell_cash);
+                                    document.getElementById("timestamp_cath_usd").textContent = data.data[0].timestamp;
+                                })           
+                            }
+                            getBankDataUSD();
+                        })
+                            
+                    </script>
+                </table>
+                
+                <br><br>
+
+                <h3 id="jpy" >
+                    日圓
+                    <input type="date" id="jpy_date" class="form-control w-auto">
+                </h3>
+                <table width="100%">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>銀行名稱</th>
+                            <th>銀行買入(即期)</th>
+                            <th>銀行賣出(即期)</th>
+                            <th>銀行買入(現鈔)</th>
+                            <th>銀行賣出(現鈔)</th>
+                            <th>時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr>
+                            <th>玉山銀行</th>
+                            <td id="buy_esun_jpy"></th>
+                            <td id="sell_esun_jpy"></th>
+                            <td id="buy_cash_esun_jpy"></th>
+                            <td id="sell_cash_esun_jpy"></th>
+                            <td id="timestamp_esun_jpy"></th>
+                        </tr>
+                        <tr>
+                            <th >國泰世華銀行</th>
+                            <td id="buy_cath_jpy"></th>
+                            <td id="sell_cath_jpy"></th>
+                            <td id="buy_cash_cath_jpy"></th>
+                            <td id="sell_cash_cath_jpy"></th>
+                            <td id="timestamp_cath_jpy"></th>
+                        </tr>                      
+                    </tbody>
+                    <script>
+                        document.getElementById("jpy_date").addEventListener("change", function() {
+                            document.getElementById("buy_esun_jpy").removeAttribute('style');
+                            document.getElementById("buy_cath_jpy").removeAttribute('style');
+                            document.getElementById("sell_esun_jpy").removeAttribute('style');
+                            document.getElementById("sell_cath_jpy").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_jpy").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_jpy").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_jpy").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_jpy").removeAttribute('style');
+
+                            document.getElementById("buy_esun_jpy").innerHTML = '';
+                            document.getElementById("buy_cath_jpy").innerHTML = '';
+                            document.getElementById("sell_esun_jpy").innerHTML = '';
+                            document.getElementById("sell_cath_jpy").innerHTML = '';
+                            document.getElementById("buy_cash_esun_jpy").innerHTML = '';
+                            document.getElementById("buy_cash_cath_jpy").innerHTML = '';
+                            document.getElementById("sell_cash_esun_jpy").innerHTML = '';
+                            document.getElementById("sell_cash_cath_jpy").innerHTML = '';
+                            document.getElementById("timestamp_esun_jpy").innerHTML = '';
+                            document.getElementById("timestamp_cath_jpy").innerHTML = '';
+                          
+                            const selectedDate = this.value;
+                
+                            const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
+                            const apiCathay = `http://127.0.0.1:8888/cathaybk_foreign_currency?date=${selectedDate}`;
+
+
+                            async function getBankDataJPY() {
+                                
+                                // 使用 Fetch API 發送 GET 請求
+                                    let esunResponse = await fetch(apiEsun);
+                                    let cathResponse = await fetch(apiCathay);
+    
+                                    let esunText = await esunResponse.text();
+                                    let cathText = await cathResponse.text();
+    
+                                    const esunJson = JSON.parse(esunText);
+                                    const cathJson = JSON.parse(cathText);
+    
+                                    // alert('esun buy = ' + esunJson.data[0].buy + 'cath buy = ' + cathJson.data[0].buy);
+                                    
+                                    let buy_esun = parseFloat(esunJson.data[3].buy);
+                                    let buy_cath = parseFloat(cathJson.data[10].buy);
+                                    let sell_esun = parseFloat(esunJson.data[3].sell);
+                                    let sell_cath = parseFloat(cathJson.data[10].sell);
+                                    let buy_cash_esun = parseFloat(esunJson.data[3].buy_cash);
+                                    let buy_cash_cath = parseFloat(cathJson.data[10].buy_cash);
+                                    let sell_cash_esun = parseFloat(esunJson.data[3].sell_cash);
+                                    let sell_cash_cath = parseFloat(cathJson.data[10].sell_cash);
+                                    
+                                    if (buy_esun > buy_cath){        
+                                        document.getElementById("buy_esun_jpy").style.background = "#FFC080";
+                                    }else if (buy_esun < buy_cath){        
+                                        document.getElementById("buy_cath_jpy").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_esun < sell_cath){        
+                                        document.getElementById("sell_esun_jpy").style.background = "#FFC080";
+                                    }else if (sell_esun > sell_cath){        
+                                        document.getElementById("sell_cath_jpy").style.background = "#FFC080";
+                                    }
+    
+                                    if (buy_cash_esun > buy_cash_cath){        
+                                        document.getElementById("buy_cash_esun_jpy").style.background = "#FFC080";
+                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                        document.getElementById("buy_cash_cath_jpy").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_cash_esun < sell_cash_cath){        
+                                        document.getElementById("sell_cash_esun_jpy").style.background = "#FFC080";
+                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                        document.getElementById("sell_cash_cath_jpy").style.background = "#FFC080";
+                                    }
+
+                            // 使用 Fetch API 發送 GET 請求
+                            fetch(apiEsun)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_esun_jpy").textContent = parseFloat(data.data[3].buy);
+                                    document.getElementById("sell_esun_jpy").textContent = parseFloat(data.data[3].sell);
+                                    document.getElementById("buy_cash_esun_jpy").textContent = parseFloat(data.data[3].buy_cash);
+                                    document.getElementById("sell_cash_esun_jpy").textContent = parseFloat(data.data[3].sell_cash);
+                                    document.getElementById("timestamp_esun_jpy").textContent = data.data[3].timestamp;
+                                } )
+
+                            fetch(apiCathay)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_cath_jpy").textContent = parseFloat(data.data[10].buy);
+                                    document.getElementById("sell_cath_jpy").textContent = parseFloat(data.data[10].sell);
+                                    document.getElementById("buy_cash_cath_jpy").textContent = parseFloat(data.data[10].buy_cash);
+                                    document.getElementById("sell_cash_cath_jpy").textContent = parseFloat(data.data[10].sell_cash);
+                                    document.getElementById("timestamp_cath_jpy").textContent = data.data[10].timestamp;
+                                } )
+                            }
+                            getBankDataJPY();
+                        } )
+                    </script>
+                </table>
+
+                <br><br>
+
+                <h3 id="hkd" >
+                    港幣
+                    <input type="date" id="hkd_date" class="form-control w-auto">
+                </h3>
+                <table width="100%">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>銀行名稱</th>
+                            <th>銀行買入(即期)</th>
+                            <th>銀行賣出(即期)</th>
+                            <th>銀行買入(現鈔)</th>
+                            <th>銀行賣出(現鈔)</th>
+                            <th>時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr>
+                            <th>玉山銀行</th>
+                            <td id="buy_esun_hkd"></th>
+                            <td id="sell_esun_hkd"></th>
+                            <td id="buy_cash_esun_hkd"></th>
+                            <td id="sell_cash_esun_hkd"></th>
+                            <td id="timestamp_esun_hkd"></th>
+                        </tr>
+                        <tr>
+                            <th >國泰世華銀行</th>
+                            <td id="buy_cath_hkd"></th>
+                            <td id="sell_cath_hkd"></th>
+                            <td id="buy_cash_cath_hkd"></th>
+                            <td id="sell_cash_cath_hkd"></th>
+                            <td id="timestamp_cath_hkd"></th>
+                        </tr>                      
+                    </tbody>
+                    <script>
+                        document.getElementById("hkd_date").addEventListener("change", function() {
+                            document.getElementById("buy_esun_hkd").removeAttribute('style');
+                            document.getElementById("buy_cath_hkd").removeAttribute('style');
+                            document.getElementById("sell_esun_hkd").removeAttribute('style');
+                            document.getElementById("sell_cath_hkd").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_hkd").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_hkd").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_hkd").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_hkd").removeAttribute('style');
+
+                            document.getElementById("buy_esun_hkd").innerHTML = '';
+                            document.getElementById("buy_cath_hkd").innerHTML = '';
+                            document.getElementById("sell_esun_hkd").innerHTML = '';
+                            document.getElementById("sell_cath_hkd").innerHTML = '';
+                            document.getElementById("buy_cash_esun_hkd").innerHTML = '';
+                            document.getElementById("buy_cash_cath_hkd").innerHTML = '';
+                            document.getElementById("sell_cash_esun_hkd").innerHTML = '';
+                            document.getElementById("sell_cash_cath_hkd").innerHTML = '';
+                            document.getElementById("timestamp_esun_hkd").innerHTML = '';
+                            document.getElementById("timestamp_cath_hkd").innerHTML = '';
+                          
+                            const selectedDate = this.value;
+                
+                            const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
+                            const apiCathay = `http://127.0.0.1:8888/cathaybk_foreign_currency?date=${selectedDate}`;
+
+
+                            async function getBankDataHKD() {
+                                
+                                // 使用 Fetch API 發送 GET 請求
+                                    let esunResponse = await fetch(apiEsun);
+                                    let cathResponse = await fetch(apiCathay);
+    
+                                    let esunText = await esunResponse.text();
+                                    let cathText = await cathResponse.text();
+    
+                                    const esunJson = JSON.parse(esunText);
+                                    const cathJson = JSON.parse(cathText);
+    
+                                    // alert('esun buy = ' + esunJson.data[0].buy + 'cath buy = ' + cathJson.data[0].buy);
+                                    
+                                    let buy_esun = parseFloat(esunJson.data[2].buy);
+                                    let buy_cath = parseFloat(cathJson.data[2].buy);
+                                    let sell_esun = parseFloat(esunJson.data[2].sell);
+                                    let sell_cath = parseFloat(cathJson.data[2].sell);
+                                    let buy_cash_esun = parseFloat(esunJson.data[2].buy_cash);
+                                    let buy_cash_cath = parseFloat(cathJson.data[2].buy_cash);
+                                    let sell_cash_esun = parseFloat(esunJson.data[2].sell_cash);
+                                    let sell_cash_cath = parseFloat(cathJson.data[2].sell_cash);
+                                    
+                                    if (buy_esun > buy_cath){        
+                                        document.getElementById("buy_esun_hkd").style.background = "#FFC080";
+                                    }else if (buy_esun < buy_cath){        
+                                        document.getElementById("buy_cath_hkd").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_esun < sell_cath){        
+                                        document.getElementById("sell_esun_hkd").style.background = "#FFC080";
+                                    }else if (sell_esun > sell_cath){        
+                                        document.getElementById("sell_cath_hkd").style.background = "#FFC080";
+                                    }
+    
+                                    if (buy_cash_esun > buy_cash_cath){        
+                                        document.getElementById("buy_cash_esun_hkd").style.background = "#FFC080";
+                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                        document.getElementById("buy_cash_cath_hkd").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_cash_esun < sell_cash_cath){        
+                                        document.getElementById("sell_cash_esun_hkd").style.background = "#FFC080";
+                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                        document.getElementById("sell_cash_cath_hkd").style.background = "#FFC080";
+                                    }
+
+                            // 使用 Fetch API 發送 GET 請求
+                            fetch(apiEsun)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_esun_hkd").textContent = parseFloat(data.data[2].buy);
+                                    document.getElementById("sell_esun_hkd").textContent = parseFloat(data.data[2].sell);
+                                    document.getElementById("buy_cash_esun_hkd").textContent = parseFloat(data.data[2].buy_cash);
+                                    document.getElementById("sell_cash_esun_hkd").textContent = parseFloat(data.data[2].sell_cash);
+                                    document.getElementById("timestamp_esun_hkd").textContent = data.data[2].timestamp;
+                                } )
+
+                            fetch(apiCathay)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_cath_hkd").textContent = parseFloat(data.data[2].buy);
+                                    document.getElementById("sell_cath_hkd").textContent = parseFloat(data.data[2].sell);
+                                    document.getElementById("buy_cash_cath_hkd").textContent = parseFloat(data.data[2].buy_cash);
+                                    document.getElementById("sell_cash_cath_hkd").textContent = parseFloat(data.data[2].sell_cash);
+                                    document.getElementById("timestamp_cath_hkd").textContent = data.data[2].timestamp;
+                                } )
+                            }
+                            getBankDataHKD()    
+                        } )
+                    </script>
+                </table>
+
+                <br><br>
+
+                <h3 id="cny">
+                    人民幣
+                    <input type="date" id="cny_date" class="form-control w-auto">
+                </h3>
+                <table width="100%">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>銀行名稱</th>
+                            <th>銀行買入(即期)</th>
+                            <th>銀行賣出(即期)</th>
+                            <th>銀行買入(現鈔)</th>
+                            <th>銀行賣出(現鈔)</th>
+                            <th>時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr>
+                            <th>玉山銀行</th>
+                            <td id="buy_esun_cny"></th>
+                            <td id="sell_esun_cny"></th>
+                            <td id="buy_cash_esun_cny"></th>
+                            <td id="sell_cash_esun_cny"></th>
+                            <td id="timestamp_esun_cny"></th>
+                        </tr>
+                        <tr>
+                            <th >國泰世華銀行</th>
+                            <td id="buy_cath_cny"></th>
+                            <td id="sell_cath_cny"></th>
+                            <td id="buy_cash_cath_cny"></th>
+                            <td id="sell_cash_cath_cny"></th>
+                            <td id="timestamp_cath_cny"></th>
+                        </tr>                      
+                    </tbody>
+                    <script>
+                        document.getElementById("cny_date").addEventListener("change", function() {
+                            document.getElementById("buy_esun_cny").removeAttribute('style');
+                            document.getElementById("buy_cath_cny").removeAttribute('style');
+                            document.getElementById("sell_esun_cny").removeAttribute('style');
+                            document.getElementById("sell_cath_cny").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_cny").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_cny").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_cny").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_cny").removeAttribute('style');
+
+                            document.getElementById("buy_esun_cny").innerHTML = '';
+                            document.getElementById("buy_cath_cny").innerHTML = '';
+                            document.getElementById("sell_esun_cny").innerHTML = '';
+                            document.getElementById("sell_cath_cny").innerHTML = '';
+                            document.getElementById("buy_cash_esun_cny").innerHTML = '';
+                            document.getElementById("buy_cash_cath_cny").innerHTML = '';
+                            document.getElementById("sell_cash_esun_cny").innerHTML = '';
+                            document.getElementById("sell_cash_cath_cny").innerHTML = '';
+                            document.getElementById("timestamp_esun_cny").innerHTML = '';
+                            document.getElementById("timestamp_cath_cny").innerHTML = '';
+                    
+                            const selectedDate = this.value;
+                
+                            const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
+                            const apiCathay = `http://127.0.0.1:8888/cathaybk_foreign_currency?date=${selectedDate}`;
+
+
+                            async function getBankDataCNY() {
+                                
+                                // 使用 Fetch API 發送 GET 請求
+                                    let esunResponse = await fetch(apiEsun);
+                                    let cathResponse = await fetch(apiCathay);
+    
+                                    let esunText = await esunResponse.text();
+                                    let cathText = await cathResponse.text();
+    
+                                    const esunJson = JSON.parse(esunText);
+                                    const cathJson = JSON.parse(cathText);
+    
+                                    // alert('esun buy = ' + esunJson.data[0].buy + 'cath buy = ' + cathJson.data[0].buy);
+                                    
+                                    let buy_esun = parseFloat(esunJson.data[1].buy);
+                                    let buy_cath = parseFloat(cathJson.data[1].buy);
+                                    let sell_esun = parseFloat(esunJson.data[1].sell);
+                                    let sell_cath = parseFloat(cathJson.data[1].sell);
+                                    let buy_cash_esun = parseFloat(esunJson.data[1].buy_cash);
+                                    let buy_cash_cath = parseFloat(cathJson.data[1].buy_cash);
+                                    let sell_cash_esun = parseFloat(esunJson.data[1].sell_cash);
+                                    let sell_cash_cath = parseFloat(cathJson.data[1].sell_cash);
+                                    
+                                    if (buy_esun > buy_cath){        
+                                        document.getElementById("buy_esun_cny").style.background = "#FFC080";
+                                    }else if (buy_esun < buy_cath){        
+                                        document.getElementById("buy_cath_cny").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_esun < sell_cath){        
+                                        document.getElementById("sell_esun_cny").style.background = "#FFC080";
+                                    }else if (sell_esun > sell_cath){        
+                                        document.getElementById("sell_cath_cny").style.background = "#FFC080";
+                                    }
+    
+                                    if (buy_cash_esun > buy_cash_cath){        
+                                        document.getElementById("buy_cash_esun_cny").style.background = "#FFC080";
+                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                        document.getElementById("buy_cash_cath_cny").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_cash_esun < sell_cash_cath){        
+                                        document.getElementById("sell_cash_esun_cny").style.background = "#FFC080";
+                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                        document.getElementById("sell_cash_cath_cny").style.background = "#FFC080";
+                                    }
+
+                            // 使用 Fetch API 發送 GET 請求
+                            fetch(apiEsun)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_esun_cny").textContent = parseFloat(data.data[1].buy);
+                                    document.getElementById("sell_esun_cny").textContent = parseFloat(data.data[1].sell);
+                                    document.getElementById("buy_cash_esun_cny").textContent = parseFloat(data.data[1].buy_cash);
+                                    document.getElementById("sell_cash_esun_cny").textContent = parseFloat(data.data[1].sell_cash);
+                                    document.getElementById("timestamp_esun_cny").textContent = data.data[1].timestamp;
+                                } )
+
+                            fetch(apiCathay)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_cath_cny").textContent = parseFloat(data.data[1].buy);
+                                    document.getElementById("sell_cath_cny").textContent = parseFloat(data.data[1].sell);
+                                    document.getElementById("buy_cash_cath_cny").textContent = parseFloat(data.data[1].buy_cash);
+                                    document.getElementById("sell_cash_cath_cny").textContent = parseFloat(data.data[1].sell_cash);
+                                    document.getElementById("timestamp_cath_cny").textContent = data.data[1].timestamp;
+                                } )
+                            }
+                            getBankDataCNY();
+                        } )
+                    </script>
+                </table>
+
+                <br><br>
+
+                <h3 id="eur">
+                    歐元
+                    <input type="date" id="eur_date" class="form-control w-auto">
+                </h3>
+                <table width="100%">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>銀行名稱</th>
+                            <th>銀行買入(即期)</th>
+                            <th>銀行賣出(即期)</th>
+                            <th>銀行買入(現鈔)</th>
+                            <th>銀行賣出(現鈔)</th>
+                            <th>時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr>
+                            <th>玉山銀行</th>
+                            <td id="buy_esun_eur"></th>
+                            <td id="sell_esun_eur"></th>
+                            <td id="buy_cash_esun_eur"></th>
+                            <td id="sell_cash_esun_eur"></th>
+                            <td id="timestamp_esun_eur"></th>
+                        </tr>
+                        <tr>
+                            <th >國泰世華銀行</th>
+                            <td id="buy_cath_eur"></th>
+                            <td id="sell_cath_eur"></th>
+                            <td id="buy_cash_cath_eur"></th>
+                            <td id="sell_cash_cath_eur"></th>
+                            <td id="timestamp_cath_eur"></th>
+                        </tr>                      
+                    </tbody>
+                    <script>
+                        document.getElementById("eur_date").addEventListener("change", function() {
+                            document.getElementById("buy_esun_eur").removeAttribute('style');
+                            document.getElementById("buy_cath_eur").removeAttribute('style');
+                            document.getElementById("sell_esun_eur").removeAttribute('style');
+                            document.getElementById("sell_cath_eur").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_eur").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_eur").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_eur").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_eur").removeAttribute('style');
+                            
+                            document.getElementById("buy_esun_eur").innerHTML = '';
+                            document.getElementById("buy_cath_eur").innerHTML = '';
+                            document.getElementById("sell_esun_eur").innerHTML = '';
+                            document.getElementById("sell_cath_eur").innerHTML = '';
+                            document.getElementById("buy_cash_esun_eur").innerHTML = '';
+                            document.getElementById("buy_cash_cath_eur").innerHTML = '';
+                            document.getElementById("sell_cash_esun_eur").innerHTML = '';
+                            document.getElementById("sell_cash_cath_eur").innerHTML = '';
+                            document.getElementById("timestamp_esun_eur").innerHTML = '';
+                            document.getElementById("timestamp_cath_eur").innerHTML = '';
+
+                            const selectedDate = this.value;
+                
+                            const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
+                            const apiCathay = `http://127.0.0.1:8888/cathaybk_foreign_currency?date=${selectedDate}`;
+
+
+                            async function getBankDataEUR() {
+                                
+                                // 使用 Fetch API 發送 GET 請求
+                                    let esunResponse = await fetch(apiEsun);
+                                    let cathResponse = await fetch(apiCathay);
+    
+                                    let esunText = await esunResponse.text();
+                                    let cathText = await cathResponse.text();
+    
+                                    const esunJson = JSON.parse(esunText);
+                                    const cathJson = JSON.parse(cathText);
+    
+                                    // alert('esun buy = ' + esunJson.data[0].buy + 'cath buy = ' + cathJson.data[0].buy);
+                                    
+                                    let buy_esun = parseFloat(esunJson.data[4].buy);
+                                    let buy_cath = parseFloat(cathJson.data[14].buy);
+                                    let sell_esun = parseFloat(esunJson.data[4].sell);
+                                    let sell_cath = parseFloat(cathJson.data[14].sell);
+                                    let buy_cash_esun = parseFloat(esunJson.data[4].buy_cash);
+                                    let buy_cash_cath = parseFloat(cathJson.data[14].buy_cash);
+                                    let sell_cash_esun = parseFloat(esunJson.data[4].sell_cash);
+                                    let sell_cash_cath = parseFloat(cathJson.data[14].sell_cash);
+                                    
+                                    if (buy_esun > buy_cath){        
+                                        document.getElementById("buy_esun_eur").style.background = "#FFC080";
+                                    }else if (buy_esun < buy_cath){        
+                                        document.getElementById("buy_cath_eur").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_esun < sell_cath){        
+                                        document.getElementById("sell_esun_eur").style.background = "#FFC080";
+                                    }else if (sell_esun > sell_cath){        
+                                        document.getElementById("sell_cath_eur").style.background = "#FFC080";
+                                    }
+    
+                                    if (buy_cash_esun > buy_cash_cath){        
+                                        document.getElementById("buy_cash_esun_eur").style.background = "#FFC080";
+                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                        document.getElementById("buy_cash_cath_eur").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_cash_esun < sell_cash_cath){        
+                                        document.getElementById("sell_cash_esun_eur").style.background = "#FFC080";
+                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                        document.getElementById("sell_cash_cath_eur").style.background = "#FFC080";
+                                    }
+
+                            // 使用 Fetch API 發送 GET 請求
+                            fetch(apiEsun)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_esun_eur").textContent = parseFloat(data.data[4].buy);
+                                    document.getElementById("sell_esun_eur").textContent = parseFloat(data.data[4].sell);
+                                    document.getElementById("buy_cash_esun_eur").textContent = parseFloat(data.data[4].buy_cash);
+                                    document.getElementById("sell_cash_esun_eur").textContent = parseFloat(data.data[4].sell_cash);
+                                    document.getElementById("timestamp_esun_eur").textContent = data.data[4].timestamp;
+                                } )
+
+                            fetch(apiCathay)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_cath_eur").textContent = parseFloat(data.data[14].buy);
+                                    document.getElementById("sell_cath_eur").textContent = parseFloat(data.data[14].sell);
+                                    document.getElementById("buy_cash_cath_eur").textContent = parseFloat(data.data[14].buy_cash);
+                                    document.getElementById("sell_cash_cath_eur").textContent = parseFloat(data.data[14].sell_cash);
+                                    document.getElementById("timestamp_cath_eur").textContent = data.data[14].timestamp;
+                                } )
+                            }
+                            getBankDataEUR();
+                        } )
+                    </script>
+                </table>
+
+                <br><br>
+
+                <h3 id="aud">
+                    澳大利亞幣
+                    <input type="date" id="aud_date" class="form-control w-auto">
+                </h3>
+                <table width="100%">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>銀行名稱</th>
+                            <th>銀行買入(即期)</th>
+                            <th>銀行賣出(即期)</th>
+                            <th>銀行買入(現鈔)</th>
+                            <th>銀行賣出(現鈔)</th>
+                            <th>時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr>
+                            <th>玉山銀行</th>
+                            <td id="buy_esun_aud"></th>
+                            <td id="sell_esun_aud"></th>
+                            <td id="buy_cash_esun_aud"></th>
+                            <td id="sell_cash_esun_aud"></th>
+                            <td id="timestamp_esun_aud"></th>
+                        </tr>
+                        <tr>
+                            <th >國泰世華銀行</th>
+                            <td id="buy_cath_aud"></th>
+                            <td id="sell_cath_aud"></th>
+                            <td id="buy_cash_cath_aud"></th>
+                            <td id="sell_cash_cath_aud"></th>
+                            <td id="timestamp_cath_aud"></th>
+                        </tr>                      
+                    </tbody>
+                    <script>
+                        document.getElementById("aud_date").addEventListener("change", function() {
+                            document.getElementById("buy_esun_aud").removeAttribute('style');
+                            document.getElementById("buy_cath_aud").removeAttribute('style');
+                            document.getElementById("sell_esun_aud").removeAttribute('style');
+                            document.getElementById("sell_cath_aud").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_aud").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_aud").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_aud").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_aud").removeAttribute('style');
+
+                            document.getElementById("buy_esun_aud").innerHTML = '';
+                            document.getElementById("buy_cath_aud").innerHTML = '';
+                            document.getElementById("sell_esun_aud").innerHTML = '';
+                            document.getElementById("sell_cath_aud").innerHTML = '';
+                            document.getElementById("buy_cash_esun_aud").innerHTML = '';
+                            document.getElementById("buy_cash_cath_aud").innerHTML = '';
+                            document.getElementById("sell_cash_esun_aud").innerHTML = '';
+                            document.getElementById("sell_cash_cath_aud").innerHTML = '';
+                            document.getElementById("timestamp_esun_aud").innerHTML = '';
+                            document.getElementById("timestamp_cath_aud").innerHTML = '';
+                          
+                            const selectedDate = this.value;
+                
+                            const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
+                            const apiCathay = `http://127.0.0.1:8888/cathaybk_foreign_currency?date=${selectedDate}`;
+
+
+                            async function getBankDataAUD() {
+                                
+                                // 使用 Fetch API 發送 GET 請求
+                                    let esunResponse = await fetch(apiEsun);
+                                    let cathResponse = await fetch(apiCathay);
+    
+                                    let esunText = await esunResponse.text();
+                                    let cathText = await cathResponse.text();
+    
+                                    const esunJson = JSON.parse(esunText);
+                                    const cathJson = JSON.parse(cathText);
+    
+                                    // alert('esun buy = ' + esunJson.data[0].buy + 'cath buy = ' + cathJson.data[0].buy);
+                                    
+                                    let buy_esun = parseFloat(esunJson.data[5].buy);
+                                    let buy_cath = parseFloat(cathJson.data[5].buy);
+                                    let sell_esun = parseFloat(esunJson.data[5].sell);
+                                    let sell_cath = parseFloat(cathJson.data[5].sell);
+                                    let buy_cash_esun = parseFloat(esunJson.data[5].buy_cash);
+                                    let buy_cash_cath = parseFloat(cathJson.data[5].buy_cash);
+                                    let sell_cash_esun = parseFloat(esunJson.data[5].sell_cash);
+                                    let sell_cash_cath = parseFloat(cathJson.data[5].sell_cash);
+                                    
+                                    if (buy_esun > buy_cath){        
+                                        document.getElementById("buy_esun_aud").style.background = "#FFC080";
+                                    }else if (buy_esun < buy_cath){        
+                                        document.getElementById("buy_cath_aud").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_esun < sell_cath){        
+                                        document.getElementById("sell_esun_aud").style.background = "#FFC080";
+                                    }else if (sell_esun > sell_cath){        
+                                        document.getElementById("sell_cath_aud").style.background = "#FFC080";
+                                    }
+    
+                                    if (buy_cash_esun > buy_cash_cath){        
+                                        document.getElementById("buy_cash_esun_aud").style.background = "#FFC080";
+                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                        document.getElementById("buy_cash_cath_aud").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_cash_esun < sell_cash_cath){        
+                                        document.getElementById("sell_cash_esun_aud").style.background = "#FFC080";
+                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                        document.getElementById("sell_cash_cath_aud").style.background = "#FFC080";
+                                    }
+
+                            // 使用 Fetch API 發送 GET 請求
+                            fetch(apiEsun)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_esun_aud").textContent = parseFloat(data.data[5].buy);
+                                    document.getElementById("sell_esun_aud").textContent = parseFloat(data.data[5].sell);
+                                    document.getElementById("buy_cash_esun_aud").textContent = parseFloat(data.data[5].buy_cash);
+                                    document.getElementById("sell_cash_esun_aud").textContent = parseFloat(data.data[5].sell_cash);
+                                    document.getElementById("timestamp_esun_aud").textContent = data.data[5].timestamp;
+                                } )
+
+                            fetch(apiCathay)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_cath_aud").textContent = parseFloat(data.data[5].buy);
+                                    document.getElementById("sell_cath_aud").textContent = parseFloat(data.data[5].sell);
+                                    document.getElementById("buy_cash_cath_aud").textContent = parseFloat(data.data[5].buy_cash);
+                                    document.getElementById("sell_cash_cath_aud").textContent = parseFloat(data.data[5].sell_cash);
+                                    document.getElementById("timestamp_cath_aud").textContent = data.data[5].timestamp;
+                                } )
+                            }
+                            getBankDataAUD();
+                        } )
+                    </script>
+                </table>
+
+                <br><br>
+
+                <h3 id="cad">
+                    加拿大幣
+                    <input type="date" id="cad_date" class="form-control w-auto">
+                </h3>
+                <table width="100%">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>銀行名稱</th>
+                            <th>銀行買入(即期)</th>
+                            <th>銀行賣出(即期)</th>
+                            <th>銀行買入(現鈔)</th>
+                            <th>銀行賣出(現鈔)</th>
+                            <th>時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr>
+                            <th>玉山銀行</th>
+                            <td id="buy_esun_cad"></th>
+                            <td id="sell_esun_cad"></th>
+                            <td id="buy_cash_esun_cad"></th>
+                            <td id="sell_cash_esun_cad"></th>
+                            <td id="timestamp_esun_cad"></th>
+                        </tr>
+                        <tr>
+                            <th >國泰世華銀行</th>
+                            <td id="buy_cath_cad"></th>
+                            <td id="sell_cath_cad"></th>
+                            <td id="buy_cash_cath_cad"></th>
+                            <td id="sell_cash_cath_cad"></th>
+                            <td id="timestamp_cath_cad"></th>
+                        </tr>                      
+                    </tbody>
+                    <script>
+                        document.getElementById("cad_date").addEventListener("change", function() {
+                            document.getElementById("buy_esun_cad").removeAttribute('style');
+                            document.getElementById("buy_cath_cad").removeAttribute('style');
+                            document.getElementById("sell_esun_cad").removeAttribute('style');
+                            document.getElementById("sell_cath_cad").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_cad").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_cad").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_cad").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_cad").removeAttribute('style');
+                            
+                            document.getElementById("buy_esun_cad").innerHTML = '';
+                            document.getElementById("buy_cath_cad").innerHTML = '';
+                            document.getElementById("sell_esun_cad").innerHTML = '';
+                            document.getElementById("sell_cath_cad").innerHTML = '';
+                            document.getElementById("buy_cash_esun_cad").innerHTML = '';
+                            document.getElementById("buy_cash_cath_cad").innerHTML = '';
+                            document.getElementById("sell_cash_esun_cad").innerHTML = '';
+                            document.getElementById("sell_cash_cath_cad").innerHTML = '';
+                            document.getElementById("timestamp_esun_cad").innerHTML = '';
+                            document.getElementById("timestamp_cath_cad").innerHTML = '';
+
+                            const selectedDate = this.value;
+                
+                            const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
+                            const apiCathay = `http://127.0.0.1:8888/cathaybk_foreign_currency?date=${selectedDate}`;
+
+
+                            async function getBankDataCAD() {
+                                
+                                // 使用 Fetch API 發送 GET 請求
+                                    let esunResponse = await fetch(apiEsun);
+                                    let cathResponse = await fetch(apiCathay);
+    
+                                    let esunText = await esunResponse.text();
+                                    let cathText = await cathResponse.text();
+    
+                                    const esunJson = JSON.parse(esunText);
+                                    const cathJson = JSON.parse(cathText);
+    
+                                    // alert('esun buy = ' + esunJson.data[0].buy + 'cath buy = ' + cathJson.data[0].buy);
+                                    
+                                    let buy_esun = parseFloat(esunJson.data[6].buy);
+                                    let buy_cath = parseFloat(cathJson.data[7].buy);
+                                    let sell_esun = parseFloat(esunJson.data[6].sell);
+                                    let sell_cath = parseFloat(cathJson.data[7].sell);
+                                    let buy_cash_esun = parseFloat(esunJson.data[6].buy_cash);
+                                    let buy_cash_cath = parseFloat(cathJson.data[7].buy_cash);
+                                    let sell_cash_esun = parseFloat(esunJson.data[6].sell_cash);
+                                    let sell_cash_cath = parseFloat(cathJson.data[7].sell_cash);
+                                    
+                                    if (buy_esun > buy_cath){        
+                                        document.getElementById("buy_esun_cad").style.background = "#FFC080";
+                                    }else if (buy_esun < buy_cath){        
+                                        document.getElementById("buy_cath_cad").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_esun < sell_cath){        
+                                        document.getElementById("sell_esun_cad").style.background = "#FFC080";
+                                    }else if (sell_esun > sell_cath){        
+                                        document.getElementById("sell_cath_cad").style.background = "#FFC080";
+                                    }
+    
+                                    if (buy_cash_esun > buy_cash_cath){        
+                                        document.getElementById("buy_cash_esun_cad").style.background = "#FFC080";
+                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                        document.getElementById("buy_cash_cath_cad").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_cash_esun < sell_cash_cath){        
+                                        document.getElementById("sell_cash_esun_cad").style.background = "#FFC080";
+                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                        document.getElementById("sell_cash_cath_cad").style.background = "#FFC080";
+                                    }
+
+
+                            // 使用 Fetch API 發送 GET 請求
+                            fetch(apiEsun)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_esun_cad").textContent = parseFloat(data.data[6].buy);
+                                    document.getElementById("sell_esun_cad").textContent = parseFloat(data.data[6].sell);
+                                    document.getElementById("buy_cash_esun_cad").textContent = parseFloat(data.data[6].buy_cash);
+                                    document.getElementById("sell_cash_esun_cad").textContent = parseFloat(data.data[6].sell_cash);
+                                    document.getElementById("timestamp_esun_cad").textContent = data.data[6].timestamp;
+                                } )
+
+                            fetch(apiCathay)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_cath_cad").textContent = parseFloat(data.data[7].buy);
+                                    document.getElementById("sell_cath_cad").textContent = parseFloat(data.data[7].sell);
+                                    document.getElementById("buy_cash_cath_cad").textContent = parseFloat(data.data[7].buy_cash);
+                                    document.getElementById("sell_cash_cath_cad").textContent = parseFloat(data.data[7].sell_cash);
+                                    document.getElementById("timestamp_cath_cad").textContent = data.data[7].timestamp;
+                                } )
+                            }
+                            getBankDataCAD();
+                        } )
+                    </script>
+                </table>
+
+                <br><br>
+
+                <h3 id="sgd">
+                    新加坡幣
+                    <input type="date" id="sgd_date" class="form-control w-auto">
+                </h3>
+                <table width="100%">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>銀行名稱</th>
+                            <th>銀行買入(即期)</th>
+                            <th>銀行賣出(即期)</th>
+                            <th>銀行買入(現鈔)</th>
+                            <th>銀行賣出(現鈔)</th>
+                            <th>時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr>
+                            <th>玉山銀行</th>
+                            <td id="buy_esun_sgd"></th>
+                            <td id="sell_esun_sgd"></th>
+                            <td id="buy_cash_esun_sgd"></th>
+                            <td id="sell_cash_esun_sgd"></th>
+                            <td id="timestamp_esun_sgd"></th>
+                        </tr>
+                        <tr>
+                            <th >國泰世華銀行</th>
+                            <td id="buy_cath_sgd"></th>
+                            <td id="sell_cath_sgd"></th>
+                            <td id="buy_cash_cath_sgd"></th>
+                            <td id="sell_cash_cath_sgd"></th>
+                            <td id="timestamp_cath_sgd"></th>
+                        </tr>                      
+                    </tbody>
+                    <script>
+                        document.getElementById("sgd_date").addEventListener("change", function() {
+                            document.getElementById("buy_esun_sgd").removeAttribute('style');
+                            document.getElementById("buy_cath_sgd").removeAttribute('style');
+                            document.getElementById("sell_esun_sgd").removeAttribute('style');
+                            document.getElementById("sell_cath_sgd").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_sgd").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_sgd").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_sgd").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_sgd").removeAttribute('style');
+                            
+                            document.getElementById("buy_esun_sgd").innerHTML = '';
+                            document.getElementById("buy_cath_sgd").innerHTML = '';
+                            document.getElementById("sell_esun_sgd").innerHTML = '';
+                            document.getElementById("sell_cath_sgd").innerHTML = '';
+                            document.getElementById("buy_cash_esun_sgd").innerHTML = '';
+                            document.getElementById("buy_cash_cath_sgd").innerHTML = '';
+                            document.getElementById("sell_cash_esun_sgd").innerHTML = '';
+                            document.getElementById("sell_cash_cath_sgd").innerHTML = '';
+                            document.getElementById("timestamp_esun_sgd").innerHTML = '';
+                            document.getElementById("timestamp_cath_sgd").innerHTML = '';
+
+                            const selectedDate = this.value;
+                
+                            const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
+                            const apiCathay = `http://127.0.0.1:8888/cathaybk_foreign_currency?date=${selectedDate}`;
+
+
+                            async function getBankDataSGD() {
+                                
+                                // 使用 Fetch API 發送 GET 請求
+                                    let esunResponse = await fetch(apiEsun);
+                                    let cathResponse = await fetch(apiCathay);
+    
+                                    let esunText = await esunResponse.text();
+                                    let cathText = await cathResponse.text();
+    
+                                    const esunJson = JSON.parse(esunText);
+                                    const cathJson = JSON.parse(cathText);
+    
+                                    // alert('esun buy = ' + esunJson.data[0].buy + 'cath buy = ' + cathJson.data[0].buy);
+                                    
+                                    let buy_esun = parseFloat(esunJson.data[12].buy);
+                                    let buy_cath = parseFloat(cathJson.data[6].buy);
+                                    let sell_esun = parseFloat(esunJson.data[12].sell);
+                                    let sell_cath = parseFloat(cathJson.data[6].sell);
+                                    let buy_cash_esun = parseFloat(esunJson.data[12].buy_cash);
+                                    let buy_cash_cath = parseFloat(cathJson.data[6].buy_cash);
+                                    let sell_cash_esun = parseFloat(esunJson.data[12].sell_cash);
+                                    let sell_cash_cath = parseFloat(cathJson.data[6].sell_cash);
+                                    
+                                    if (buy_esun > buy_cath){        
+                                        document.getElementById("buy_esun_sgd").style.background = "#FFC080";
+                                    }else if (buy_esun < buy_cath){        
+                                        document.getElementById("buy_cath_sgd").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_esun < sell_cath){        
+                                        document.getElementById("sell_esun_sgd").style.background = "#FFC080";
+                                    }else if (sell_esun > sell_cath){        
+                                        document.getElementById("sell_cath_sgd").style.background = "#FFC080";
+                                    }
+    
+                                    if (buy_cash_esun > buy_cash_cath){        
+                                        document.getElementById("buy_cash_esun_sgd").style.background = "#FFC080";
+                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                        document.getElementById("buy_cash_cath_sgd").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_cash_esun < sell_cash_cath){        
+                                        document.getElementById("sell_cash_esun_sgd").style.background = "#FFC080";
+                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                        document.getElementById("sell_cash_cath_sgd").style.background = "#FFC080";
+                                    }
+
+                            // 使用 Fetch API 發送 GET 請求
+                            fetch(apiEsun)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_esun_sgd").textContent = parseFloat(data.data[12].buy);
+                                    document.getElementById("sell_esun_sgd").textContent = parseFloat(data.data[12].sell);
+                                    document.getElementById("buy_cash_esun_sgd").textContent = parseFloat(data.data[12].buy_cash);
+                                    document.getElementById("sell_cash_esun_sgd").textContent = parseFloat(data.data[12].sell_cash);
+                                    document.getElementById("timestamp_esun_sgd").textContent = data.data[12].timestamp;
+                                } )
+
+                            fetch(apiCathay)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_cath_sgd").textContent = parseFloat(data.data[6].buy);
+                                    document.getElementById("sell_cath_sgd").textContent = parseFloat(data.data[6].sell);
+                                    document.getElementById("buy_cash_cath_sgd").textContent = parseFloat(data.data[6].buy_cash);
+                                    document.getElementById("sell_cash_cath_sgd").textContent = parseFloat(data.data[6].sell_cash);
+                                    document.getElementById("timestamp_cath_sgd").textContent = data.data[6].timestamp;
+                                } )
+                            }
+                            getBankDataSGD();
+                        } )
+                    </script>
+                </table>
+
+                <br><br>
+
+                <h3 id="thb">
+                    泰銖
+                    <input type="date" id="thb_date" class="form-control w-auto">
+                </h3>
+                <table width="100%">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>銀行名稱</th>
+                            <th>銀行買入(即期)</th>
+                            <th>銀行賣出(即期)</th>
+                            <th>銀行買入(現鈔)</th>
+                            <th>銀行賣出(現鈔)</th>
+                            <th>時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr>
+                            <th>玉山銀行</th>
+                            <td id="buy_esun_thb"></th>
+                            <td id="sell_esun_thb"></th>
+                            <td id="buy_cash_esun_thb"></th>
+                            <td id="sell_cash_esun_thb"></th>
+                            <td id="timestamp_esun_thb"></th>
+                        </tr>
+                        <tr>
+                            <th >國泰世華銀行</th>
+                            <td id="buy_cath_thb"></th>
+                            <td id="sell_cath_thb"></th>
+                            <td id="buy_cash_cath_thb"></th>
+                            <td id="sell_cash_cath_thb"></th>
+                            <td id="timestamp_cath_thb"></th>
+                        </tr>                      
+                    </tbody>
+                    <script>
+                        document.getElementById("thb_date").addEventListener("change", function() {
+                            document.getElementById("buy_esun_thb").removeAttribute('style');
+                            document.getElementById("buy_cath_thb").removeAttribute('style');
+                            document.getElementById("sell_esun_thb").removeAttribute('style');
+                            document.getElementById("sell_cath_thb").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_thb").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_thb").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_thb").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_thb").removeAttribute('style');
+
+                            document.getElementById("buy_esun_thb").innerHTML = '';
+                            document.getElementById("buy_cath_thb").innerHTML = '';
+                            document.getElementById("sell_esun_thb").innerHTML = '';
+                            document.getElementById("sell_cath_thb").innerHTML = '';
+                            document.getElementById("buy_cash_esun_thb").innerHTML = '';
+                            document.getElementById("buy_cash_cath_thb").innerHTML = '';
+                            document.getElementById("sell_cash_esun_thb").innerHTML = '';
+                            document.getElementById("sell_cash_cath_thb").innerHTML = '';
+                            document.getElementById("timestamp_esun_thb").innerHTML = '';
+                            document.getElementById("timestamp_cath_thb").innerHTML = '';
+                          
+                            const selectedDate = this.value;
+                
+                            const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
+                            const apiCathay = `http://127.0.0.1:8888/cathaybk_foreign_currency?date=${selectedDate}`;
+
+
+                            async function getBankDataTHB() {
+                                
+                                // 使用 Fetch API 發送 GET 請求
+                                    let esunResponse = await fetch(apiEsun);
+                                    let cathResponse = await fetch(apiCathay);
+    
+                                    let esunText = await esunResponse.text();
+                                    let cathText = await cathResponse.text();
+    
+                                    const esunJson = JSON.parse(esunText);
+                                    const cathJson = JSON.parse(cathText);
+    
+                                    // alert('esun buy = ' + esunJson.data[0].buy + 'cath buy = ' + cathJson.data[0].buy);
+                                    
+                                    let buy_esun = parseFloat(esunJson.data[14].buy);
+                                    let buy_cath = parseFloat(cathJson.data[12].buy);
+                                    let sell_esun = parseFloat(esunJson.data[14].sell);
+                                    let sell_cath = parseFloat(cathJson.data[12].sell);
+                                    let buy_cash_esun = parseFloat(esunJson.data[14].buy_cash);
+                                    let buy_cash_cath = parseFloat(cathJson.data[12].buy_cash);
+                                    let sell_cash_esun = parseFloat(esunJson.data[14].sell_cash);
+                                    let sell_cash_cath = parseFloat(cathJson.data[12].sell_cash);
+                                    
+                                    if (buy_esun > buy_cath){        
+                                        document.getElementById("buy_esun_thb").style.background = "#FFC080";
+                                    }else if (buy_esun < buy_cath){        
+                                        document.getElementById("buy_cath_thb").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_esun < sell_cath){        
+                                        document.getElementById("sell_esun_thb").style.background = "#FFC080";
+                                    }else if (sell_esun > sell_cath){        
+                                        document.getElementById("sell_cath_thb").style.background = "#FFC080";
+                                    }
+    
+                                    if (buy_cash_esun > buy_cash_cath){        
+                                        document.getElementById("buy_cash_esun_thb").style.background = "#FFC080";
+                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                        document.getElementById("buy_cash_cath_thb").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_cash_esun < sell_cash_cath){        
+                                        document.getElementById("sell_cash_esun_thb").style.background = "#FFC080";
+                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                        document.getElementById("sell_cash_cath_thb").style.background = "#FFC080";
+                                    }
+
+                            // 使用 Fetch API 發送 GET 請求
+                            fetch(apiEsun)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_esun_thb").textContent = parseFloat(data.data[14].buy);
+                                    document.getElementById("sell_esun_thb").textContent = parseFloat(data.data[14].sell);
+                                    document.getElementById("buy_cash_esun_thb").textContent = parseFloat(data.data[14].buy_cash);
+                                    document.getElementById("sell_cash_esun_thb").textContent = parseFloat(data.data[14].sell_cash);
+                                    document.getElementById("timestamp_esun_thb").textContent = data.data[14].timestamp;
+                                } )
+
+                            fetch(apiCathay)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_cath_thb").textContent = parseFloat(data.data[12].buy);
+                                    document.getElementById("sell_cath_thb").textContent = parseFloat(data.data[12].sell);
+                                    document.getElementById("buy_cash_cath_thb").textContent = parseFloat(data.data[12].buy_cash);
+                                    document.getElementById("sell_cash_cath_thb").textContent = parseFloat(data.data[12].sell_cash);
+                                    document.getElementById("timestamp_cath_thb").textContent = data.data[12].timestamp;
+                                } )
+                            }
+                            getBankDataTHB();
+                        } )
+                    </script>
+                </table>
+
+                <br><br>
+
+                <h3 id="nzd">
+                    紐西蘭幣
+                    <input type="date" id="nzd_date" class="form-control w-auto">
+                </h3>
+                <table width="100%">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>銀行名稱</th>
+                            <th>銀行買入(即期)</th>
+                            <th>銀行賣出(即期)</th>
+                            <th>銀行買入(現鈔)</th>
+                            <th>銀行賣出(現鈔)</th>
+                            <th>時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr>
+                            <th>玉山銀行</th>
+                            <td id="buy_esun_nzd"></th>
+                            <td id="sell_esun_nzd"></th>
+                            <td id="buy_cash_esun_nzd"></th>
+                            <td id="sell_cash_esun_nzd"></th>
+                            <td id="timestamp_esun_nzd"></th>
+                        </tr>
+                        <tr>
+                            <th >國泰世華銀行</th>
+                            <td id="buy_cath_nzd"></th>
+                            <td id="sell_cath_nzd"></th>
+                            <td id="buy_cash_cath_nzd"></th>
+                            <td id="sell_cash_cath_nzd"></th>
+                            <td id="timestamp_cath_nzd"></th>
+                        </tr>                      
+                    </tbody>
+                    <script>
+                        document.getElementById("nzd_date").addEventListener("change", function() {
+                            document.getElementById("buy_esun_nzd").removeAttribute('style');
+                            document.getElementById("buy_cath_nzd").removeAttribute('style');
+                            document.getElementById("sell_esun_nzd").removeAttribute('style');
+                            document.getElementById("sell_cath_nzd").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_nzd").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_nzd").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_nzd").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_nzd").removeAttribute('style');
+
+                            document.getElementById("buy_esun_nzd").innerHTML = '';
+                            document.getElementById("buy_cath_nzd").innerHTML = '';
+                            document.getElementById("sell_esun_nzd").innerHTML = '';
+                            document.getElementById("sell_cath_nzd").innerHTML = '';
+                            document.getElementById("buy_cash_esun_nzd").innerHTML = '';
+                            document.getElementById("buy_cash_cath_nzd").innerHTML = '';
+                            document.getElementById("sell_cash_esun_nzd").innerHTML = '';
+                            document.getElementById("sell_cash_cath_nzd").innerHTML = '';
+                            document.getElementById("timestamp_esun_nzd").innerHTML = '';
+                            document.getElementById("timestamp_cath_nzd").innerHTML = '';
+
+                            const selectedDate = this.value;
+                
+                            const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
+                            const apiCathay = `http://127.0.0.1:8888/cathaybk_foreign_currency?date=${selectedDate}`;
+
+
+                            async function getBankDataNZD() {
+                                
+                                // 使用 Fetch API 發送 GET 請求
+                                    let esunResponse = await fetch(apiEsun);
+                                    let cathResponse = await fetch(apiCathay);
+    
+                                    let esunText = await esunResponse.text();
+                                    let cathText = await cathResponse.text();
+    
+                                    const esunJson = JSON.parse(esunText);
+                                    const cathJson = JSON.parse(cathText);
+    
+                                    // alert('esun buy = ' + esunJson.data[0].buy + 'cath buy = ' + cathJson.data[0].buy);
+                                    
+                                    let buy_esun = parseFloat(esunJson.data[9].buy);
+                                    let buy_cath = parseFloat(cathJson.data[13].buy);
+                                    let sell_esun = parseFloat(esunJson.data[9].sell);
+                                    let sell_cath = parseFloat(cathJson.data[13].sell);
+                                    let buy_cash_esun = parseFloat(esunJson.data[9].buy_cash);
+                                    let buy_cash_cath = parseFloat(cathJson.data[13].buy_cash);
+                                    let sell_cash_esun = parseFloat(esunJson.data[9].sell_cash);
+                                    let sell_cash_cath = parseFloat(cathJson.data[13].sell_cash);
+                                    
+                                    if (buy_esun > buy_cath){        
+                                        document.getElementById("buy_esun_nzd").style.background = "#FFC080";
+                                    }else if (buy_esun < buy_cath){        
+                                        document.getElementById("buy_cath_nzd").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_esun < sell_cath){        
+                                        document.getElementById("sell_esun_nzd").style.background = "#FFC080";
+                                    }else if (sell_esun > sell_cath){        
+                                        document.getElementById("sell_cath_nzd").style.background = "#FFC080";
+                                    }
+    
+                                    if (buy_cash_esun > buy_cash_cath){        
+                                        document.getElementById("buy_cash_esun_nzd").style.background = "#FFC080";
+                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                        document.getElementById("buy_cash_cath_nzd").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_cash_esun < sell_cash_cath){        
+                                        document.getElementById("sell_cash_esun_nzd").style.background = "#FFC080";
+                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                        document.getElementById("sell_cash_cath_nzd").style.background = "#FFC080";
+                                    }
+
+                            // 使用 Fetch API 發送 GET 請求
+                            fetch(apiEsun)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_esun_nzd").textContent = parseFloat(data.data[9].buy);
+                                    document.getElementById("sell_esun_nzd").textContent = parseFloat(data.data[9].sell);
+                                    document.getElementById("buy_cash_esun_nzd").textContent = parseFloat(data.data[9].buy_cash);
+                                    document.getElementById("sell_cash_esun_nzd").textContent = parseFloat(data.data[9].sell_cash);
+                                    document.getElementById("timestamp_esun_nzd").textContent = data.data[9].timestamp;
+                                } )
+
+                            fetch(apiCathay)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_cath_nzd").textContent = parseFloat(data.data[13].buy);
+                                    document.getElementById("sell_cath_nzd").textContent = parseFloat(data.data[13].sell);
+                                    document.getElementById("buy_cash_cath_nzd").textContent = parseFloat(data.data[13].buy_cash);
+                                    document.getElementById("sell_cash_cath_nzd").textContent = parseFloat(data.data[13].sell_cash);
+                                    document.getElementById("timestamp_cath_nzd").textContent = data.data[13].timestamp;
+                                } )
+                            }
+                            getBankDataNZD();
+                        } )
+                    </script>
+                </table>
+
+                <br><br>
+
+                <h3 id="gbp">
+                    英鎊
+                    <input type="date" id="gbp_date" class="form-control w-auto">
+                </h3>
+                <table width="100%">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>銀行名稱</th>
+                            <th>銀行買入(即期)</th>
+                            <th>銀行賣出(即期)</th>
+                            <th>銀行買入(現鈔)</th>
+                            <th>銀行賣出(現鈔)</th>
+                            <th>時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr>
+                            <th>玉山銀行</th>
+                            <td id="buy_esun_gbp"></th>
+                            <td id="sell_esun_gbp"></th>
+                            <td id="buy_cash_esun_gbp"></th>
+                            <td id="sell_cash_esun_gbp"></th>
+                            <td id="timestamp_esun_gbp"></th>
+                        </tr>
+                        <tr>
+                            <th >國泰世華銀行</th>
+                            <td id="buy_cath_gbp"></th>
+                            <td id="sell_cath_gbp"></th>
+                            <td id="buy_cash_cath_gbp"></th>
+                            <td id="sell_cash_cath_gbp"></th>
+                            <td id="timestamp_cath_gbp"></th>
+                        </tr>                      
+                    </tbody>
+                    <script>
+                        document.getElementById("gbp_date").addEventListener("change", function() {
+                            document.getElementById("buy_esun_gbp").removeAttribute('style');
+                            document.getElementById("buy_cath_gbp").removeAttribute('style');
+                            document.getElementById("sell_esun_gbp").removeAttribute('style');
+                            document.getElementById("sell_cath_gbp").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_gbp").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_gbp").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_gbp").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_gbp").removeAttribute('style');
+
+                            document.getElementById("buy_esun_gbp").innerHTML = '';
+                            document.getElementById("buy_cath_gbp").innerHTML = '';
+                            document.getElementById("sell_esun_gbp").innerHTML = '';
+                            document.getElementById("sell_cath_gbp").innerHTML = '';
+                            document.getElementById("buy_cash_esun_gbp").innerHTML = '';
+                            document.getElementById("buy_cash_cath_gbp").innerHTML = '';
+                            document.getElementById("sell_cash_esun_gbp").innerHTML = '';
+                            document.getElementById("sell_cash_cath_gbp").innerHTML = '';
+                            document.getElementById("timestamp_esun_gbp").innerHTML = '';
+                            document.getElementById("timestamp_cath_gbp").innerHTML = '';
+                          
+                            const selectedDate = this.value;
+                
+                            const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
+                            const apiCathay = `http://127.0.0.1:8888/cathaybk_foreign_currency?date=${selectedDate}`;
+
+
+                            async function getBankDataGBP() {
+                                
+                                // 使用 Fetch API 發送 GET 請求
+                                    let esunResponse = await fetch(apiEsun);
+                                    let cathResponse = await fetch(apiCathay);
+    
+                                    let esunText = await esunResponse.text();
+                                    let cathText = await cathResponse.text();
+    
+                                    const esunJson = JSON.parse(esunText);
+                                    const cathJson = JSON.parse(cathText);
+    
+                                    // alert('esun buy = ' + esunJson.data[0].buy + 'cath buy = ' + cathJson.data[0].buy);
+                                    
+                                    let buy_esun = parseFloat(esunJson.data[7].buy);
+                                    let buy_cath = parseFloat(cathJson.data[3].buy);
+                                    let sell_esun = parseFloat(esunJson.data[7].sell);
+                                    let sell_cath = parseFloat(cathJson.data[3].sell);
+                                    let buy_cash_esun = parseFloat(esunJson.data[7].buy_cash);
+                                    let buy_cash_cath = parseFloat(cathJson.data[3].buy_cash);
+                                    let sell_cash_esun = parseFloat(esunJson.data[7].sell_cash);
+                                    let sell_cash_cath = parseFloat(cathJson.data[3].sell_cash);
+                                    
+                                    if (buy_esun > buy_cath){        
+                                        document.getElementById("buy_esun_gbp").style.background = "#FFC080";
+                                    }else if (buy_esun < buy_cath){        
+                                        document.getElementById("buy_cath_gbp").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_esun < sell_cath){        
+                                        document.getElementById("sell_esun_gbp").style.background = "#FFC080";
+                                    }else if (sell_esun > sell_cath){        
+                                        document.getElementById("sell_cath_gbp").style.background = "#FFC080";
+                                    }
+    
+                                    if (buy_cash_esun > buy_cash_cath){        
+                                        document.getElementById("buy_cash_esun_gbp").style.background = "#FFC080";
+                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                        document.getElementById("buy_cash_cath_gbp").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_cash_esun < sell_cash_cath){        
+                                        document.getElementById("sell_cash_esun_gbp").style.background = "#FFC080";
+                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                        document.getElementById("sell_cash_cath_gbp").style.background = "#FFC080";
+                                    }
+
+                            // 使用 Fetch API 發送 GET 請求
+                            fetch(apiEsun)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_esun_gbp").textContent = parseFloat(data.data[7].buy);
+                                    document.getElementById("sell_esun_gbp").textContent = parseFloat(data.data[7].sell);
+                                    document.getElementById("buy_cash_esun_gbp").textContent = parseFloat(data.data[7].buy_cash);
+                                    document.getElementById("sell_cash_esun_gbp").textContent = parseFloat(data.data[7].sell_cash);
+                                    document.getElementById("timestamp_esun_gbp").textContent = data.data[7].timestamp;
+                                } )
+
+                            fetch(apiCathay)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_cath_gbp").textContent = parseFloat(data.data[3].buy);
+                                    document.getElementById("sell_cath_gbp").textContent = parseFloat(data.data[3].sell);
+                                    document.getElementById("buy_cash_cath_gbp").textContent = parseFloat(data.data[3].buy_cash);
+                                    document.getElementById("sell_cash_cath_gbp").textContent = parseFloat(data.data[3].sell_cash);
+                                    document.getElementById("timestamp_cath_gbp").textContent = data.data[3].timestamp;
+                                } )
+                            }
+                            getBankDataGBP();
+                        } )
+                    </script>
+                </table>
+
+                <br><br>
+
+                <h3 id="chf">
+                    瑞士法郎
+                    <input type="date" id="chf_date" class="form-control w-auto">
+                </h3>
+                <table width="100%">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>銀行名稱</th>
+                            <th>銀行買入(即期)</th>
+                            <th>銀行賣出(即期)</th>
+                            <th>銀行買入(現鈔)</th>
+                            <th>銀行賣出(現鈔)</th>
+                            <th>時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr>
+                            <th>玉山銀行</th>
+                            <td id="buy_esun_chf"></th>
+                            <td id="sell_esun_chf"></th>
+                            <td id="buy_cash_esun_chf"></th>
+                            <td id="sell_cash_esun_chf"></th>
+                            <td id="timestamp_esun_chf"></th>
+                        </tr>
+                        <tr>
+                            <th >國泰世華銀行</th>
+                            <td id="buy_cath_chf"></th>
+                            <td id="sell_cath_chf"></th>
+                            <td id="buy_cash_cath_chf"></th>
+                            <td id="sell_cash_cath_chf"></th>
+                            <td id="timestamp_cath_chf"></th>
+                        </tr>                      
+                    </tbody>
+                    <script>
+                        document.getElementById("chf_date").addEventListener("change", function() {
+                            document.getElementById("buy_esun_chf").removeAttribute('style');
+                            document.getElementById("buy_cath_chf").removeAttribute('style');
+                            document.getElementById("sell_esun_chf").removeAttribute('style');
+                            document.getElementById("sell_cath_chf").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_chf").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_chf").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_chf").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_chf").removeAttribute('style');
+
+                            document.getElementById("buy_esun_chf").innerHTML = '';
+                            document.getElementById("buy_cath_chf").innerHTML = '';
+                            document.getElementById("sell_esun_chf").innerHTML = '';
+                            document.getElementById("sell_cath_chf").innerHTML = '';
+                            document.getElementById("buy_cash_esun_chf").innerHTML = '';
+                            document.getElementById("buy_cash_cath_chf").innerHTML = '';
+                            document.getElementById("sell_cash_esun_chf").innerHTML = '';
+                            document.getElementById("sell_cash_cath_chf").innerHTML = '';
+                            document.getElementById("timestamp_esun_chf").innerHTML = '';
+                            document.getElementById("timestamp_cath_chf").innerHTML = '';
+                          
+                            const selectedDate = this.value;
+                
+                            const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
+                            const apiCathay = `http://127.0.0.1:8888/cathaybk_foreign_currency?date=${selectedDate}`;
+
+
+                            async function getBankDataCHF() {
+                                
+                                // 使用 Fetch API 發送 GET 請求
+                                    let esunResponse = await fetch(apiEsun);
+                                    let cathResponse = await fetch(apiCathay);
+    
+                                    let esunText = await esunResponse.text();
+                                    let cathText = await cathResponse.text();
+    
+                                    const esunJson = JSON.parse(esunText);
+                                    const cathJson = JSON.parse(cathText);
+    
+                                    // alert('esun buy = ' + esunJson.data[0].buy + 'cath buy = ' + cathJson.data[0].buy);
+                                    
+                                    let buy_esun = parseFloat(esunJson.data[10].buy);
+                                    let buy_cath = parseFloat(cathJson.data[4].buy);
+                                    let sell_esun = parseFloat(esunJson.data[10].sell);
+                                    let sell_cath = parseFloat(cathJson.data[4].sell);
+                                    let buy_cash_esun = parseFloat(esunJson.data[10].buy_cash);
+                                    let buy_cash_cath = parseFloat(cathJson.data[4].buy_cash);
+                                    let sell_cash_esun = parseFloat(esunJson.data[10].sell_cash);
+                                    let sell_cash_cath = parseFloat(cathJson.data[4].sell_cash);
+                                    
+                                    if (buy_esun > buy_cath){        
+                                        document.getElementById("buy_esun_chf").style.background = "#FFC080";
+                                    }else if (buy_esun < buy_cath){        
+                                        document.getElementById("buy_cath_chf").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_esun < sell_cath){        
+                                        document.getElementById("sell_esun_chf").style.background = "#FFC080";
+                                    }else if (sell_esun > sell_cath){        
+                                        document.getElementById("sell_cath_chf").style.background = "#FFC080";
+                                    }
+    
+                                    if (buy_cash_esun > buy_cash_cath){        
+                                        document.getElementById("buy_cash_esun_chf").style.background = "#FFC080";
+                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                        document.getElementById("buy_cash_cath_chf").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_cash_esun < sell_cash_cath){        
+                                        document.getElementById("sell_cash_esun_chf").style.background = "#FFC080";
+                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                        document.getElementById("sell_cash_cath_chf").style.background = "#FFC080";
+                                    }
+
+                            // 使用 Fetch API 發送 GET 請求
+                            fetch(apiEsun)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_esun_chf").textContent = parseFloat(data.data[10].buy);
+                                    document.getElementById("sell_esun_chf").textContent = parseFloat(data.data[10].sell);
+                                    document.getElementById("buy_cash_esun_chf").textContent = parseFloat(data.data[10].buy_cash);
+                                    document.getElementById("sell_cash_esun_chf").textContent = parseFloat(data.data[10].sell_cash);
+                                    document.getElementById("timestamp_esun_chf").textContent = data.data[10].timestamp;
+                                } )
+
+                            fetch(apiCathay)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_cath_chf").textContent = parseFloat(data.data[4].buy);
+                                    document.getElementById("sell_cath_chf").textContent = parseFloat(data.data[4].sell);
+                                    document.getElementById("buy_cash_cath_chf").textContent = parseFloat(data.data[4].buy_cash);
+                                    document.getElementById("sell_cash_cath_chf").textContent = parseFloat(data.data[4].sell_cash);
+                                    document.getElementById("timestamp_cath_chf").textContent = data.data[4].timestamp;
+                                } )
+                            }
+                            getBankDataCHF();
+                        } )
+                    </script>
+                </table>
+
+                <br><br>
+
+                <h3 id="zar">
+                    南非幣
+                    <input type="date" id="zar_date" class="form-control w-auto">
+                </h3>
+                <table width="100%">
+                    <thead style="text-align: center">
+                        <tr>
+                            <th>銀行名稱</th>
+                            <th>銀行買入(即期)</th>
+                            <th>銀行賣出(即期)</th>
+                            <th>銀行買入(現鈔)</th>
+                            <th>銀行賣出(現鈔)</th>
+                            <th>時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>                       
+                        <tr>
+                            <th>玉山銀行</th>
+                            <td id="buy_esun_zar"></th>
+                            <td id="sell_esun_zar"></th>
+                            <td id="buy_cash_esun_zar"></th>
+                            <td id="sell_cash_esun_zar"></th>
+                            <td id="timestamp_esun_zar"></th>
+                        </tr>
+                        <tr>
+                            <th >國泰世華銀行</th>
+                            <td id="buy_cath_zar"></th>
+                            <td id="sell_cath_zar"></th>
+                            <td id="buy_cash_cath_zar"></th>
+                            <td id="sell_cash_cath_zar"></th>
+                            <td id="timestamp_cath_zar"></th>
+                        </tr>                      
+                    </tbody>
+                    <script>
+                        document.getElementById("zar_date").addEventListener("change", function() {
+                            document.getElementById("buy_esun_zar").removeAttribute('style');
+                            document.getElementById("buy_cath_zar").removeAttribute('style');
+                            document.getElementById("sell_esun_zar").removeAttribute('style');
+                            document.getElementById("sell_cath_zar").removeAttribute('style');
+                            document.getElementById("buy_cash_esun_zar").removeAttribute('style');
+                            document.getElementById("buy_cash_cath_zar").removeAttribute('style');
+                            document.getElementById("sell_cash_esun_zar").removeAttribute('style');
+                            document.getElementById("sell_cash_cath_zar").removeAttribute('style');
+
+                            document.getElementById("buy_esun_zar").innerHTML = '';
+                            document.getElementById("buy_cath_zar").innerHTML = '';
+                            document.getElementById("sell_esun_zar").innerHTML = '';
+                            document.getElementById("sell_cath_zar").innerHTML = '';
+                            document.getElementById("buy_cash_esun_zar").innerHTML = '';
+                            document.getElementById("buy_cash_cath_zar").innerHTML = '';
+                            document.getElementById("sell_cash_esun_zar").innerHTML = '';
+                            document.getElementById("sell_cash_cath_zar").innerHTML = '';
+                            document.getElementById("timestamp_esun_zar").innerHTML = '';
+                            document.getElementById("timestamp_cath_zar").innerHTML = '';
+
+                            const selectedDate = this.value;
+                
+                            const apiEsun = `http://127.0.0.1:8888/esun_foreign_currency?date=${selectedDate}`;
+                            const apiCathay = `http://127.0.0.1:8888/cathaybk_foreign_currency?date=${selectedDate}`;
+
+
+                            async function getBankDataZAR() {
+                                
+                                // 使用 Fetch API 發送 GET 請求
+                                    let esunResponse = await fetch(apiEsun);
+                                    let cathResponse = await fetch(apiCathay);
+    
+                                    let esunText = await esunResponse.text();
+                                    let cathText = await cathResponse.text();
+    
+                                    const esunJson = JSON.parse(esunText);
+                                    const cathJson = JSON.parse(cathText);
+    
+                                    // alert('esun buy = ' + esunJson.data[0].buy + 'cath buy = ' + cathJson.data[0].buy);
+                                    
+                                    let buy_esun = parseFloat(esunJson.data[8].buy);
+                                    let buy_cath = parseFloat(cathJson.data[9].buy);
+                                    let sell_esun = parseFloat(esunJson.data[8].sell);
+                                    let sell_cath = parseFloat(cathJson.data[9].sell);
+                                    let buy_cash_esun = parseFloat(esunJson.data[8].buy_cash);
+                                    let buy_cash_cath = parseFloat(cathJson.data[9].buy_cash);
+                                    let sell_cash_esun = parseFloat(esunJson.data[8].sell_cash);
+                                    let sell_cash_cath = parseFloat(cathJson.data[9].sell_cash);
+                                    
+                                    if (buy_esun > buy_cath){        
+                                        document.getElementById("buy_esun_zar").style.background = "#FFC080";
+                                    }else if (buy_esun < buy_cath){        
+                                        document.getElementById("buy_cath_zar").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_esun < sell_cath){        
+                                        document.getElementById("sell_esun_zar").style.background = "#FFC080";
+                                    }else if (sell_esun > sell_cath){        
+                                        document.getElementById("sell_cath_zar").style.background = "#FFC080";
+                                    }
+    
+                                    if (buy_cash_esun > buy_cash_cath){        
+                                        document.getElementById("buy_cash_esun_zar").style.background = "#FFC080";
+                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                        document.getElementById("buy_cash_cath_zar").style.background = "#FFC080";
+                                    }
+    
+                                    if (sell_cash_esun < sell_cash_cath){        
+                                        document.getElementById("sell_cash_esun_zar").style.background = "#FFC080";
+                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                        document.getElementById("sell_cash_cath_zar").style.background = "#FFC080";
+                                    }
+
+                            // 使用 Fetch API 發送 GET 請求
+                            fetch(apiEsun)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_esun_zar").textContent = parseFloat(data.data[8].buy);
+                                    document.getElementById("sell_esun_zar").textContent = parseFloat(data.data[8].sell);
+                                    document.getElementById("buy_cash_esun_zar").textContent = parseFloat(data.data[8].buy_cash);
+                                    document.getElementById("sell_cash_esun_zar").textContent = parseFloat(data.data[8].sell_cash);
+                                    document.getElementById("timestamp_esun_zar").textContent = data.data[8].timestamp;
+                                } )
+
+                            fetch(apiCathay)
+                                .then(response => response.json())  // 將 API 回應轉換成 JSON
+                                .then(data => {
+                                    
+                                    // 將 API 數據填充到已存在的表格欄位
+                                    document.getElementById("buy_cath_zar").textContent = parseFloat(data.data[9].buy);
+                                    document.getElementById("sell_cath_zar").textContent = parseFloat(data.data[9].sell);
+                                    document.getElementById("buy_cash_cath_zar").textContent = parseFloat(data.data[9].buy_cash);
+                                    document.getElementById("sell_cash_cath_zar").textContent = parseFloat(data.data[9].sell_cash);
+                                    document.getElementById("timestamp_cath_zar").textContent = data.data[9].timestamp;
+                                } )
+                            }
+                            getBankDataZAR();
+                        } )
+                    </script>
+                </table>
+
+                <br><br>
+
+                
+                
