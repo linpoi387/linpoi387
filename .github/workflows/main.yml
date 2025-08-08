@@ -64,7 +64,10 @@ jobs:
           pip install pandas
         
       - name: fastapi
-        run: |
-          python ./API/API_mysql.py
+        run: python ./API/API_mysql.py
+          
+      - name: foreign currency
+        run: foreign_currency.html
 
-      
+      - name: wait for 30 mins
+        run : sleep 1800
