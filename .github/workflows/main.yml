@@ -67,7 +67,7 @@ jobs:
           pip install pandas
         
       - name: fastapi
-        run: 
+        run: |
           cd API
           uvicorn API_mysql:app --reload --port 8888
           
