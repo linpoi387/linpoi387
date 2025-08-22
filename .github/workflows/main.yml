@@ -67,7 +67,9 @@ jobs:
           pip install pandas
         
       - name: fastapi
-        run: uvicorn API_mysql:app --reload --port 8888
+        run: 
+          cd API
+          uvicorn API_mysql:app --reload --port 8888
           
       # - name: Deploy HTML to GitHub Pages
       #   uses: peaceiris/actions-gh-pages@v4
