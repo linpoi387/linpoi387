@@ -70,12 +70,12 @@ jobs:
         run: |
           cd API
           uvicorn API_mysql:app --port 8888
-          
+          sleep(600)
+          Ctrl + C
       # - name: Deploy HTML to GitHub Pages
       #   uses: peaceiris/actions-gh-pages@v4
       #   with:
       #     github_token: ${{ secrets.GITHUB_TOKEN }}
       #     publish_dir: ./
 
-      - name: wait for 10 mins for phpmyadmin
-        run : sleep 600
+      
