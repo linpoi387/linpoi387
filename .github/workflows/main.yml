@@ -71,13 +71,12 @@ jobs:
           cd API
           timeout 600s nohup uvicorn API_mysql:app --host 0.0.0.0 --port 8888 &
 
+      - name: Install http-server
+        run: npm install -g http-server
+
+      - name: Start http-server
+        run: |
+          http-server . -p 8080 &
+
       - name: wait for 600s
         run: sleep 600
-          
-      # - name: Deploy HTML to GitHub Pages
-      #   uses: peaceiris/actions-gh-pages@v4
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_dir: ./
-
-      
