@@ -69,7 +69,7 @@ jobs:
       - name: fastapi
         run: |
           cd API
-          timeout 600s uvicorn API_mysql:app --port 8888
+          timeout 600s nohup uvicorn API_mysql:app --host 0.0.0.0 --port 8888 &
           
       # - name: Deploy HTML to GitHub Pages
       #   uses: peaceiris/actions-gh-pages@v4
