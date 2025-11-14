@@ -6,7 +6,8 @@ import pandas as pd
 
 
 def get_mysql_conn() -> engine.base.Connection:
-    address = "mysql+mysqlconnector://root:test@127.0.0.1:3306/crawler" #host.docker.internal
+    address = "mysql+mysqlconnector://root:test@host.docker.internal:3306/crawler"
+    # address = "mysql+mysqlconnector://root:test@127.0.0.1:3306/crawler" #host.docker.internal
     engine = create_engine(address)
     connect = engine.connect()
     return connect
