@@ -21,7 +21,7 @@
     </div>
     <div class="col-sm-3" ></div>
         <div class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle" style="position: fixed, "
+            <button type="button" class="btn btn-primary dropdown-toggle" style="position: fixed; top: 100px;"
                 data-bs-toggle="dropdown">幣別</button>
             <ul class="dropdown-menu">                            
                 <li><a class="dropdown-item" href="#usd">美元</a></li>
@@ -143,25 +143,29 @@
                             
                                 if (Math.max(...buy_list) == buy_esun){        
                                     document.getElementById("buy_esun_usd").style.background = "#FFC080";
-                                }else if (Math.max(...buy_list) == buy_cath){        
+                                }
+                                if (Math.max(...buy_list) == buy_cath){        
                                     document.getElementById("buy_cath_usd").style.background = "#FFC080";
                                 }
                                
                                 if (Math.min(...sell_list) == sell_esun){        
                                     document.getElementById("sell_esun_usd").style.background = "#FFC080";
-                                }else if (Math.min(...sell_list) == sell_cath){        
+                                }
+                                if (Math.min(...sell_list) == sell_cath){        
                                     document.getElementById("sell_cath_usd").style.background = "#FFC080";
                                 }
 
                                 if (Math.max(...buy_cash_list) == buy_cash_esun){        
                                     document.getElementById("buy_cash_esun_usd").style.background = "#FFC080";
-                                }else if (Math.max(...buy_cash_list) == buy_cash_cath){        
+                                }
+                                if (Math.max(...buy_cash_list) == buy_cash_cath){        
                                     document.getElementById("buy_cash_cath_usd").style.background = "#FFC080";
                                 }
 
                                 if (Math.min(...sell_cash_list) == sell_cash_esun){        
                                     document.getElementById("sell_cash_esun_usd").style.background = "#FFC080";
-                                }else if (Math.min(...sell_cash_list) == sell_cash_cath){        
+                                }
+                                if (Math.min(...sell_cash_list) == sell_cash_cath){        
                                     document.getElementById("sell_cash_cath_usd").style.background = "#FFC080";
                                 }
 
@@ -282,29 +286,38 @@
                                     let sell_cash_esun = parseFloat(esunJson.data[3].sell_cash);
                                     let sell_cash_cath = parseFloat(cathJson.data[10].sell_cash);
                                     
-                                    if (buy_esun > buy_cath){        
+                                    let buy_list = [buy_esun, buy_cath, ]
+                                    let sell_list = [sell_esun, sell_cath, ]
+                                    let buy_cash_list = [buy_cash_esun, buy_cash_cath, ]
+                                    let sell_cash_list = [sell_cash_esun, sell_cash_cath, ]
+                                
+                                    if (Math.max(...buy_list) == buy_esun){        
                                         document.getElementById("buy_esun_jpy").style.background = "#FFC080";
-                                    }else if (buy_esun < buy_cath){        
+                                    }if (Math.max(...buy_list) == buy_cath){        
                                         document.getElementById("buy_cath_jpy").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_esun < sell_cath){        
+                                
+                                    if (Math.min(...sell_list) == sell_esun){        
                                         document.getElementById("sell_esun_jpy").style.background = "#FFC080";
-                                    }else if (sell_esun > sell_cath){        
+                                    }if (Math.min(...sell_list) == sell_cath){        
                                         document.getElementById("sell_cath_jpy").style.background = "#FFC080";
                                     }
-    
-                                    if (buy_cash_esun > buy_cash_cath){        
+                                    
+
+                                    if (Math.max(...buy_cash_list) == buy_cash_esun){        
                                         document.getElementById("buy_cash_esun_jpy").style.background = "#FFC080";
-                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                    }if (Math.max(...buy_cash_list) == buy_cash_cath){        
                                         document.getElementById("buy_cash_cath_jpy").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_cash_esun < sell_cash_cath){        
+                                    
+
+                                    if (Math.min(...sell_cash_list) == sell_cash_esun){        
                                         document.getElementById("sell_cash_esun_jpy").style.background = "#FFC080";
-                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                    }if (Math.min(...sell_cash_list) == sell_cash_cath){        
                                         document.getElementById("sell_cash_cath_jpy").style.background = "#FFC080";
                                     }
+                                    
+                                    
 
                             // 使用 Fetch API 發送 GET 請求
                             fetch(apiEsun)
@@ -422,27 +435,36 @@
                                     let sell_cash_esun = parseFloat(esunJson.data[2].sell_cash);
                                     let sell_cash_cath = parseFloat(cathJson.data[2].sell_cash);
                                     
-                                    if (buy_esun > buy_cath){        
+                                    let buy_list = [buy_esun, buy_cath, ]
+                                    let sell_list = [sell_esun, sell_cath, ]
+                                    let buy_cash_list = [buy_cash_esun, buy_cash_cath, ]
+                                    let sell_cash_list = [sell_cash_esun, sell_cash_cath, ]
+                                
+                                    if (Math.max(...buy_list) == buy_esun){        
                                         document.getElementById("buy_esun_hkd").style.background = "#FFC080";
-                                    }else if (buy_esun < buy_cath){        
+                                    }
+                                    if (Math.max(...buy_list) == buy_cath){        
                                         document.getElementById("buy_cath_hkd").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_esun < sell_cath){        
+                                
+                                    if (Math.min(...sell_list) == sell_esun){        
                                         document.getElementById("sell_esun_hkd").style.background = "#FFC080";
-                                    }else if (sell_esun > sell_cath){        
+                                    }
+                                    if (Math.min(...sell_list) == sell_cath){        
                                         document.getElementById("sell_cath_hkd").style.background = "#FFC080";
                                     }
-    
-                                    if (buy_cash_esun > buy_cash_cath){        
+
+                                    if (Math.max(...buy_cash_list) == buy_cash_esun){        
                                         document.getElementById("buy_cash_esun_hkd").style.background = "#FFC080";
-                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                    }
+                                    if (Math.max(...buy_cash_list) == buy_cash_cath){        
                                         document.getElementById("buy_cash_cath_hkd").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_cash_esun < sell_cash_cath){        
+
+                                    if (Math.min(...sell_cash_list) == sell_cash_esun){        
                                         document.getElementById("sell_cash_esun_hkd").style.background = "#FFC080";
-                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                    }
+                                    if (Math.min(...sell_cash_list) == sell_cash_cath){        
                                         document.getElementById("sell_cash_cath_hkd").style.background = "#FFC080";
                                     }
 
@@ -562,27 +584,36 @@
                                     let sell_cash_esun = parseFloat(esunJson.data[1].sell_cash);
                                     let sell_cash_cath = parseFloat(cathJson.data[1].sell_cash);
                                     
-                                    if (buy_esun > buy_cath){        
+                                    let buy_list = [buy_esun, buy_cath, ]
+                                    let sell_list = [sell_esun, sell_cath, ]
+                                    let buy_cash_list = [buy_cash_esun, buy_cash_cath, ]
+                                    let sell_cash_list = [sell_cash_esun, sell_cash_cath, ]
+                                
+                                    if (Math.max(...buy_list) == buy_esun){        
                                         document.getElementById("buy_esun_cny").style.background = "#FFC080";
-                                    }else if (buy_esun < buy_cath){        
+                                    }
+                                    if (Math.max(...buy_list) == buy_cath){        
                                         document.getElementById("buy_cath_cny").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_esun < sell_cath){        
+                                
+                                    if (Math.min(...sell_list) == sell_esun){        
                                         document.getElementById("sell_esun_cny").style.background = "#FFC080";
-                                    }else if (sell_esun > sell_cath){        
+                                    }
+                                    if (Math.min(...sell_list) == sell_cath){        
                                         document.getElementById("sell_cath_cny").style.background = "#FFC080";
                                     }
-    
-                                    if (buy_cash_esun > buy_cash_cath){        
+
+                                    if (Math.max(...buy_cash_list) == buy_cash_esun){        
                                         document.getElementById("buy_cash_esun_cny").style.background = "#FFC080";
-                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                    }
+                                    if (Math.max(...buy_cash_list) == buy_cash_cath){        
                                         document.getElementById("buy_cash_cath_cny").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_cash_esun < sell_cash_cath){        
+
+                                    if (Math.min(...sell_cash_list) == sell_cash_esun){        
                                         document.getElementById("sell_cash_esun_cny").style.background = "#FFC080";
-                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                    }
+                                    if (Math.min(...sell_cash_list) == sell_cash_cath){        
                                         document.getElementById("sell_cash_cath_cny").style.background = "#FFC080";
                                     }
 
@@ -702,27 +733,36 @@
                                     let sell_cash_esun = parseFloat(esunJson.data[4].sell_cash);
                                     let sell_cash_cath = parseFloat(cathJson.data[14].sell_cash);
                                     
-                                    if (buy_esun > buy_cath){        
+                                    let buy_list = [buy_esun, buy_cath, ]
+                                    let sell_list = [sell_esun, sell_cath, ]
+                                    let buy_cash_list = [buy_cash_esun, buy_cash_cath, ]
+                                    let sell_cash_list = [sell_cash_esun, sell_cash_cath, ]
+                                
+                                    if (Math.max(...buy_list) == buy_esun){        
                                         document.getElementById("buy_esun_eur").style.background = "#FFC080";
-                                    }else if (buy_esun < buy_cath){        
+                                    }
+                                    if (Math.max(...buy_list) == buy_cath){        
                                         document.getElementById("buy_cath_eur").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_esun < sell_cath){        
+                                
+                                    if (Math.min(...sell_list) == sell_esun){        
                                         document.getElementById("sell_esun_eur").style.background = "#FFC080";
-                                    }else if (sell_esun > sell_cath){        
+                                    }
+                                    if (Math.min(...sell_list) == sell_cath){        
                                         document.getElementById("sell_cath_eur").style.background = "#FFC080";
                                     }
-    
-                                    if (buy_cash_esun > buy_cash_cath){        
+
+                                    if (Math.max(...buy_cash_list) == buy_cash_esun){        
                                         document.getElementById("buy_cash_esun_eur").style.background = "#FFC080";
-                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                    }
+                                    if (Math.max(...buy_cash_list) == buy_cash_cath){        
                                         document.getElementById("buy_cash_cath_eur").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_cash_esun < sell_cash_cath){        
+
+                                    if (Math.min(...sell_cash_list) == sell_cash_esun){        
                                         document.getElementById("sell_cash_esun_eur").style.background = "#FFC080";
-                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                    }
+                                    if (Math.min(...sell_cash_list) == sell_cash_cath){        
                                         document.getElementById("sell_cash_cath_eur").style.background = "#FFC080";
                                     }
 
@@ -842,27 +882,36 @@
                                     let sell_cash_esun = parseFloat(esunJson.data[5].sell_cash);
                                     let sell_cash_cath = parseFloat(cathJson.data[5].sell_cash);
                                     
-                                    if (buy_esun > buy_cath){        
+                                    let buy_list = [buy_esun, buy_cath, ]
+                                    let sell_list = [sell_esun, sell_cath, ]
+                                    let buy_cash_list = [buy_cash_esun, buy_cash_cath, ]
+                                    let sell_cash_list = [sell_cash_esun, sell_cash_cath, ]
+                                
+                                    if (Math.max(...buy_list) == buy_esun){        
                                         document.getElementById("buy_esun_aud").style.background = "#FFC080";
-                                    }else if (buy_esun < buy_cath){        
+                                    }
+                                    if (Math.max(...buy_list) == buy_cath){        
                                         document.getElementById("buy_cath_aud").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_esun < sell_cath){        
+                                
+                                    if (Math.min(...sell_list) == sell_esun){        
                                         document.getElementById("sell_esun_aud").style.background = "#FFC080";
-                                    }else if (sell_esun > sell_cath){        
+                                    }
+                                    if (Math.min(...sell_list) == sell_cath){        
                                         document.getElementById("sell_cath_aud").style.background = "#FFC080";
                                     }
-    
-                                    if (buy_cash_esun > buy_cash_cath){        
+
+                                    if (Math.max(...buy_cash_list) == buy_cash_esun){        
                                         document.getElementById("buy_cash_esun_aud").style.background = "#FFC080";
-                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                    }
+                                    if (Math.max(...buy_cash_list) == buy_cash_cath){        
                                         document.getElementById("buy_cash_cath_aud").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_cash_esun < sell_cash_cath){        
+
+                                    if (Math.min(...sell_cash_list) == sell_cash_esun){        
                                         document.getElementById("sell_cash_esun_aud").style.background = "#FFC080";
-                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                    }
+                                    if (Math.min(...sell_cash_list) == sell_cash_cath){        
                                         document.getElementById("sell_cash_cath_aud").style.background = "#FFC080";
                                     }
 
@@ -982,27 +1031,36 @@
                                     let sell_cash_esun = parseFloat(esunJson.data[6].sell_cash);
                                     let sell_cash_cath = parseFloat(cathJson.data[7].sell_cash);
                                     
-                                    if (buy_esun > buy_cath){        
+                                    let buy_list = [buy_esun, buy_cath, ]
+                                    let sell_list = [sell_esun, sell_cath, ]
+                                    let buy_cash_list = [buy_cash_esun, buy_cash_cath, ]
+                                    let sell_cash_list = [sell_cash_esun, sell_cash_cath, ]
+                                
+                                    if (Math.max(...buy_list) == buy_esun){        
                                         document.getElementById("buy_esun_cad").style.background = "#FFC080";
-                                    }else if (buy_esun < buy_cath){        
+                                    }
+                                    if (Math.max(...buy_list) == buy_cath){        
                                         document.getElementById("buy_cath_cad").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_esun < sell_cath){        
+                                
+                                    if (Math.min(...sell_list) == sell_esun){        
                                         document.getElementById("sell_esun_cad").style.background = "#FFC080";
-                                    }else if (sell_esun > sell_cath){        
+                                    }
+                                    if (Math.min(...sell_list) == sell_cath){        
                                         document.getElementById("sell_cath_cad").style.background = "#FFC080";
                                     }
-    
-                                    if (buy_cash_esun > buy_cash_cath){        
+
+                                    if (Math.max(...buy_cash_list) == buy_cash_esun){        
                                         document.getElementById("buy_cash_esun_cad").style.background = "#FFC080";
-                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                    }
+                                    if (Math.max(...buy_cash_list) == buy_cash_cath){        
                                         document.getElementById("buy_cash_cath_cad").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_cash_esun < sell_cash_cath){        
+
+                                    if (Math.min(...sell_cash_list) == sell_cash_esun){        
                                         document.getElementById("sell_cash_esun_cad").style.background = "#FFC080";
-                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                    }
+                                    if (Math.min(...sell_cash_list) == sell_cash_cath){        
                                         document.getElementById("sell_cash_cath_cad").style.background = "#FFC080";
                                     }
 
@@ -1123,27 +1181,36 @@
                                     let sell_cash_esun = parseFloat(esunJson.data[12].sell_cash);
                                     let sell_cash_cath = parseFloat(cathJson.data[6].sell_cash);
                                     
-                                    if (buy_esun > buy_cath){        
+                                    let buy_list = [buy_esun, buy_cath, ]
+                                    let sell_list = [sell_esun, sell_cath, ]
+                                    let buy_cash_list = [buy_cash_esun, buy_cash_cath, ]
+                                    let sell_cash_list = [sell_cash_esun, sell_cash_cath, ]
+                                
+                                    if (Math.max(...buy_list) == buy_esun){        
                                         document.getElementById("buy_esun_sgd").style.background = "#FFC080";
-                                    }else if (buy_esun < buy_cath){        
+                                    }
+                                    if (Math.max(...buy_list) == buy_cath){        
                                         document.getElementById("buy_cath_sgd").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_esun < sell_cath){        
+                                
+                                    if (Math.min(...sell_list) == sell_esun){        
                                         document.getElementById("sell_esun_sgd").style.background = "#FFC080";
-                                    }else if (sell_esun > sell_cath){        
+                                    }
+                                    if (Math.min(...sell_list) == sell_cath){        
                                         document.getElementById("sell_cath_sgd").style.background = "#FFC080";
                                     }
-    
-                                    if (buy_cash_esun > buy_cash_cath){        
+
+                                    if (Math.max(...buy_cash_list) == buy_cash_esun){        
                                         document.getElementById("buy_cash_esun_sgd").style.background = "#FFC080";
-                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                    }
+                                    if (Math.max(...buy_cash_list) == buy_cash_cath){        
                                         document.getElementById("buy_cash_cath_sgd").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_cash_esun < sell_cash_cath){        
+
+                                    if (Math.min(...sell_cash_list) == sell_cash_esun){        
                                         document.getElementById("sell_cash_esun_sgd").style.background = "#FFC080";
-                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                    }
+                                    if (Math.min(...sell_cash_list) == sell_cash_cath){        
                                         document.getElementById("sell_cash_cath_sgd").style.background = "#FFC080";
                                     }
 
@@ -1263,27 +1330,36 @@
                                     let sell_cash_esun = parseFloat(esunJson.data[14].sell_cash);
                                     let sell_cash_cath = parseFloat(cathJson.data[12].sell_cash);
                                     
-                                    if (buy_esun > buy_cath){        
+                                    let buy_list = [buy_esun, buy_cath, ]
+                                    let sell_list = [sell_esun, sell_cath, ]
+                                    let buy_cash_list = [buy_cash_esun, buy_cash_cath, ]
+                                    let sell_cash_list = [sell_cash_esun, sell_cash_cath, ]
+                                
+                                    if (Math.max(...buy_list) == buy_esun){        
                                         document.getElementById("buy_esun_thb").style.background = "#FFC080";
-                                    }else if (buy_esun < buy_cath){        
+                                    }
+                                    if (Math.max(...buy_list) == buy_cath){        
                                         document.getElementById("buy_cath_thb").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_esun < sell_cath){        
+                                
+                                    if (Math.min(...sell_list) == sell_esun){        
                                         document.getElementById("sell_esun_thb").style.background = "#FFC080";
-                                    }else if (sell_esun > sell_cath){        
+                                    }
+                                    if (Math.min(...sell_list) == sell_cath){        
                                         document.getElementById("sell_cath_thb").style.background = "#FFC080";
                                     }
-    
-                                    if (buy_cash_esun > buy_cash_cath){        
+
+                                    if (Math.max(...buy_cash_list) == buy_cash_esun){        
                                         document.getElementById("buy_cash_esun_thb").style.background = "#FFC080";
-                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                    }
+                                    if (Math.max(...buy_cash_list) == buy_cash_cath){        
                                         document.getElementById("buy_cash_cath_thb").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_cash_esun < sell_cash_cath){        
+
+                                    if (Math.min(...sell_cash_list) == sell_cash_esun){        
                                         document.getElementById("sell_cash_esun_thb").style.background = "#FFC080";
-                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                    }
+                                    if (Math.min(...sell_cash_list) == sell_cash_cath){        
                                         document.getElementById("sell_cash_cath_thb").style.background = "#FFC080";
                                     }
 
@@ -1403,27 +1479,36 @@
                                     let sell_cash_esun = parseFloat(esunJson.data[9].sell_cash);
                                     let sell_cash_cath = parseFloat(cathJson.data[13].sell_cash);
                                     
-                                    if (buy_esun > buy_cath){        
+                                    let buy_list = [buy_esun, buy_cath, ]
+                                    let sell_list = [sell_esun, sell_cath, ]
+                                    let buy_cash_list = [buy_cash_esun, buy_cash_cath, ]
+                                    let sell_cash_list = [sell_cash_esun, sell_cash_cath, ]
+                                
+                                    if (Math.max(...buy_list) == buy_esun){        
                                         document.getElementById("buy_esun_nzd").style.background = "#FFC080";
-                                    }else if (buy_esun < buy_cath){        
+                                    }
+                                    if (Math.max(...buy_list) == buy_cath){        
                                         document.getElementById("buy_cath_nzd").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_esun < sell_cath){        
+                                
+                                    if (Math.min(...sell_list) == sell_esun){        
                                         document.getElementById("sell_esun_nzd").style.background = "#FFC080";
-                                    }else if (sell_esun > sell_cath){        
+                                    }
+                                    if (Math.min(...sell_list) == sell_cath){        
                                         document.getElementById("sell_cath_nzd").style.background = "#FFC080";
                                     }
-    
-                                    if (buy_cash_esun > buy_cash_cath){        
+
+                                    if (Math.max(...buy_cash_list) == buy_cash_esun){        
                                         document.getElementById("buy_cash_esun_nzd").style.background = "#FFC080";
-                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                    }
+                                    if (Math.max(...buy_cash_list) == buy_cash_cath){        
                                         document.getElementById("buy_cash_cath_nzd").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_cash_esun < sell_cash_cath){        
+
+                                    if (Math.min(...sell_cash_list) == sell_cash_esun){        
                                         document.getElementById("sell_cash_esun_nzd").style.background = "#FFC080";
-                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                    }
+                                    if (Math.min(...sell_cash_list) == sell_cash_cath){        
                                         document.getElementById("sell_cash_cath_nzd").style.background = "#FFC080";
                                     }
 
@@ -1543,27 +1628,36 @@
                                     let sell_cash_esun = parseFloat(esunJson.data[7].sell_cash);
                                     let sell_cash_cath = parseFloat(cathJson.data[3].sell_cash);
                                     
-                                    if (buy_esun > buy_cath){        
+                                    let buy_list = [buy_esun, buy_cath, ]
+                                    let sell_list = [sell_esun, sell_cath, ]
+                                    let buy_cash_list = [buy_cash_esun, buy_cash_cath, ]
+                                    let sell_cash_list = [sell_cash_esun, sell_cash_cath, ]
+                                
+                                    if (Math.max(...buy_list) == buy_esun){        
                                         document.getElementById("buy_esun_gbp").style.background = "#FFC080";
-                                    }else if (buy_esun < buy_cath){        
+                                    }
+                                    if (Math.max(...buy_list) == buy_cath){        
                                         document.getElementById("buy_cath_gbp").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_esun < sell_cath){        
+                                
+                                    if (Math.min(...sell_list) == sell_esun){        
                                         document.getElementById("sell_esun_gbp").style.background = "#FFC080";
-                                    }else if (sell_esun > sell_cath){        
+                                    }
+                                    if (Math.min(...sell_list) == sell_cath){        
                                         document.getElementById("sell_cath_gbp").style.background = "#FFC080";
                                     }
-    
-                                    if (buy_cash_esun > buy_cash_cath){        
+
+                                    if (Math.max(...buy_cash_list) == buy_cash_esun){        
                                         document.getElementById("buy_cash_esun_gbp").style.background = "#FFC080";
-                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                    }
+                                    if (Math.max(...buy_cash_list) == buy_cash_cath){        
                                         document.getElementById("buy_cash_cath_gbp").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_cash_esun < sell_cash_cath){        
+
+                                    if (Math.min(...sell_cash_list) == sell_cash_esun){        
                                         document.getElementById("sell_cash_esun_gbp").style.background = "#FFC080";
-                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                    }
+                                    if (Math.min(...sell_cash_list) == sell_cash_cath){        
                                         document.getElementById("sell_cash_cath_gbp").style.background = "#FFC080";
                                     }
 
@@ -1683,27 +1777,36 @@
                                     let sell_cash_esun = parseFloat(esunJson.data[10].sell_cash);
                                     let sell_cash_cath = parseFloat(cathJson.data[4].sell_cash);
                                     
-                                    if (buy_esun > buy_cath){        
+                                    let buy_list = [buy_esun, buy_cath, ]
+                                    let sell_list = [sell_esun, sell_cath, ]
+                                    let buy_cash_list = [buy_cash_esun, buy_cash_cath, ]
+                                    let sell_cash_list = [sell_cash_esun, sell_cash_cath, ]
+                                
+                                    if (Math.max(...buy_list) == buy_esun){        
                                         document.getElementById("buy_esun_chf").style.background = "#FFC080";
-                                    }else if (buy_esun < buy_cath){        
+                                    }
+                                    if (Math.max(...buy_list) == buy_cath){        
                                         document.getElementById("buy_cath_chf").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_esun < sell_cath){        
+                                
+                                    if (Math.min(...sell_list) == sell_esun){        
                                         document.getElementById("sell_esun_chf").style.background = "#FFC080";
-                                    }else if (sell_esun > sell_cath){        
+                                    }
+                                    if (Math.min(...sell_list) == sell_cath){        
                                         document.getElementById("sell_cath_chf").style.background = "#FFC080";
                                     }
-    
-                                    if (buy_cash_esun > buy_cash_cath){        
+
+                                    if (Math.max(...buy_cash_list) == buy_cash_esun){        
                                         document.getElementById("buy_cash_esun_chf").style.background = "#FFC080";
-                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                    }
+                                    if (Math.max(...buy_cash_list) == buy_cash_cath){        
                                         document.getElementById("buy_cash_cath_chf").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_cash_esun < sell_cash_cath){        
+
+                                    if (Math.min(...sell_cash_list) == sell_cash_esun){        
                                         document.getElementById("sell_cash_esun_chf").style.background = "#FFC080";
-                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                    }
+                                    if (Math.min(...sell_cash_list) == sell_cash_cath){        
                                         document.getElementById("sell_cash_cath_chf").style.background = "#FFC080";
                                     }
 
@@ -1823,27 +1926,36 @@
                                     let sell_cash_esun = parseFloat(esunJson.data[8].sell_cash);
                                     let sell_cash_cath = parseFloat(cathJson.data[9].sell_cash);
                                     
-                                    if (buy_esun > buy_cath){        
+                                    let buy_list = [buy_esun, buy_cath, ]
+                                    let sell_list = [sell_esun, sell_cath, ]
+                                    let buy_cash_list = [buy_cash_esun, buy_cash_cath, ]
+                                    let sell_cash_list = [sell_cash_esun, sell_cash_cath, ]
+                                
+                                    if (Math.max(...buy_list) == buy_esun){        
                                         document.getElementById("buy_esun_zar").style.background = "#FFC080";
-                                    }else if (buy_esun < buy_cath){        
+                                    }
+                                    if (Math.max(...buy_list) == buy_cath){        
                                         document.getElementById("buy_cath_zar").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_esun < sell_cath){        
+                                
+                                    if (Math.min(...sell_list) == sell_esun){        
                                         document.getElementById("sell_esun_zar").style.background = "#FFC080";
-                                    }else if (sell_esun > sell_cath){        
+                                    }
+                                    if (Math.min(...sell_list) == sell_cath){        
                                         document.getElementById("sell_cath_zar").style.background = "#FFC080";
                                     }
-    
-                                    if (buy_cash_esun > buy_cash_cath){        
+
+                                    if (Math.max(...buy_cash_list) == buy_cash_esun){        
                                         document.getElementById("buy_cash_esun_zar").style.background = "#FFC080";
-                                    }else if (buy_cash_esun < buy_cash_cath){        
+                                    }
+                                    if (Math.max(...buy_cash_list) == buy_cash_cath){        
                                         document.getElementById("buy_cash_cath_zar").style.background = "#FFC080";
                                     }
-    
-                                    if (sell_cash_esun < sell_cash_cath){        
+
+                                    if (Math.min(...sell_cash_list) == sell_cash_esun){        
                                         document.getElementById("sell_cash_esun_zar").style.background = "#FFC080";
-                                    }else if (sell_cash_esun > sell_cash_cath){        
+                                    }
+                                    if (Math.min(...sell_cash_list) == sell_cash_cath){        
                                         document.getElementById("sell_cash_cath_zar").style.background = "#FFC080";
                                     }
 
