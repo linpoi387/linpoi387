@@ -31,12 +31,28 @@ services:
       links: 
           - mysql:db
       ports:
-          - 8000:80
+          - 8888:80
       depends_on:
         - mysql
       networks:
           - my_network
-     
+  
+  apimysql:
+      build: ./API
+      container_name: apimysql
+      ports:
+       - 8080:8080
+      environment:
+          MYSQL_DATABASE: crawler
+          MYSQL_USER: user
+          MYSQL_PASSWORD: test
+          MYSQL_ROOT_PASSWORD: test
+      depends_on:
+       - mysql
+      restart: unless-stopped
+      networks:
+          - my_network
+
 networks:
   my_network:
     external: true

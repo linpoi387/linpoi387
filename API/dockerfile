@@ -5,13 +5,22 @@ FROM python:3.11.7-slim
 WORKDIR /app
 
 # 3. 複製當前目錄中的內容到容器的 /app 目錄
-COPY . /app
+# COPY . /app
+
+# 3. 複製 requirements.txt 並安裝依賴
+# 這樣做可以利用 Docker 的快取機制，當程式碼改變時，不需要重新安裝依賴
+COPY requirements.txt .
 
 # 4. 安裝依賴
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 5. 暴露 FastAPI 的默認端口 8888
-EXPOSE 8888
+# 4. 複製您的應用程式碼
+# 假設您的程式碼 (您提供的程式碼) 儲存為 main.py
+COPY API_mysql.py .
+
+# 5. 暴露 FastAPI 的默認端口 8080
+EXPOSE 8080
 
 # 6. 設置啟動命令來運行 FastAPI 應用
-CMD ["uvicorn", "API_mysql:app", "--reload", "--port", "8888"]
+# CMD ["uvicorn", "API_mysql:app", "--reload", "--port", "8080"]
+CMD ["python", "-m", "uvicorn", "API_mysql:app", "--reload", "--host", "0.0.0.0", "--port", "8080"]

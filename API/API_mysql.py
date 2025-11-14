@@ -2,11 +2,22 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware 
 from sqlalchemy import create_engine, engine
 import pandas as pd 
-
+# import os
 
 
 def get_mysql_conn() -> engine.base.Connection:
-    address = "mysql+mysqlconnector://root:test@127.0.0.1:3306/crawler" #host.docker.internal
+    # host = os.getenv("MYSQL_HOST", "localhost")  # 預設localhost
+    # user = os.getenv("MYSQL_USER", "root")
+    # password = os.getenv("MYSQL_PASSWORD", "test")
+    # db = os.getenv("MYSQL_DB", "crawler")
+
+    # address = f"mysql+mysqlconnector://{user}:{password}@{host}:3306/{db}"
+
+
+    #Docker內連外部mysql
+    address = "mysql+mysqlconnector://root:test@host.docker.internal:3306/crawler"
+    #local端連本地mysql  (Command：python -m uvicorn API_mysql:app --host 0.0.0.0 --port 8080 --reload)
+    # address = "mysql+mysqlconnector://root:test@127.0.0.1:3306/crawler" 
     engine = create_engine(address)
     connect = engine.connect()
     return connect
@@ -17,7 +28,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],       # 或者設置特定的來源，例如 ["http://localhost:8080"]
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET"],
     allow_headers=["*"],
 )
 
