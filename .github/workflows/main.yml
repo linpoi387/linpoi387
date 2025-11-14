@@ -70,5 +70,6 @@ jobs:
         run: |
           cd API
           timeout 600s nohup uvicorn API_mysql:app --host 0.0.0.0 --port 8080 --reload &
-
-      
+          
+      - name: sleep
+        run: sleep 1000
