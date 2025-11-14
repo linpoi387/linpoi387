@@ -69,6 +69,6 @@ jobs:
       - name: fastapi
         run: |
           cd API
-          nohup timeout 600s uvicorn API_mysql:app --host 0.0.0.0 --port 8080 --reload &
-          sleep 10
+          nohup timeout 600s uvicorn API_mysql:app --host 0.0.0.0 --port 8080 --reload
+          
       
