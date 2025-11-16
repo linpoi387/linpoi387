@@ -45,18 +45,18 @@ jobs:
           docker exec -i linpoi387_mysql_1 mysql -u root -p${{ secrets.MYSQL_ADMIN_PASSWORD }} crawler < ./crawler.sql
 
       # Display phpMyAdmin URL  
-      - name: Install ngrok
-        run: |
-          curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
-          echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
-          sudo apt update
-          sudo apt install -y ngrok
+      # - name: Install ngrok
+      #   run: |
+      #     curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
+      #     echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+      #     sudo apt update
+      #     sudo apt install -y ngrok
           
-      - name: Add ngrok authtoken
-        run: ngrok config add-authtoken ${{ secrets.NGROK_AUTHTOKEN }}
+      # - name: Add ngrok authtoken
+      #   run: ngrok config add-authtoken ${{ secrets.NGROK_AUTHTOKEN }}
         
-      - name: Expose phpMyAdmin to the internet
-        run: ngrok http 8000 &
+      # - name: Expose phpMyAdmin to the internet
+      #   run: ngrok http 8000 &
 
       - name: pip install
         run: |
@@ -69,14 +69,6 @@ jobs:
       - name: fastapi
         run: |
           cd API
-          timeout 600s nohup uvicorn API_mysql:app --host 0.0.0.0 --port 8888 &
-
-      - name: Install http-server
-        run: npm install http-server
-
-      - name: Start http-server
-        run: |
-          http-server . -p 8080 &
-
-      - name: wait for 600s
-        run: sleep 600
+          nohup timeout 600s uvicorn API_mysql:app --host 0.0.0.0 --port 8080 --reload
+          
+      
