@@ -43,15 +43,15 @@ jobs:
       - name: Import SQL
         run: |
           docker exec -i linpoi387_mysql_1 mysql -u root -p${{ secrets.MYSQL_ADMIN_PASSWORD }} crawler < ./crawler.sql
+          
+      - name: sleep
+        run: sleep 60
 
       - name: List running Docker containers
         run: |
           docker ps
           docker network ls
           
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-
       - name: sleep
         run: sleep 600
         
