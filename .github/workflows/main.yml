@@ -58,17 +58,17 @@ jobs:
       # - name: Expose phpMyAdmin to the internet
       #   run: ngrok http 8000 &
 
-      - name: pip install
-        run: |
-          pip install mysql.connector
-          pip install fastapi
-          pip install uvicorn
-          pip install sqlalchemy
-          pip install pandas
+      # - name: pip install
+      #   run: |
+      #     pip install mysql.connector
+      #     pip install fastapi
+      #     pip install uvicorn
+      #     pip install sqlalchemy
+      #     pip install pandas
         
-      - name: fastapi
-        run: |
-          cd API
-          nohup timeout 600s uvicorn API_mysql:app --host 0.0.0.0 --port 8080 --reload
+      # - name: fastapi
+      #   run: |
+      #     cd API
+      #     nohup timeout 600s uvicorn API_mysql:app --host 0.0.0.0 --port 8080 --reload
           
       
